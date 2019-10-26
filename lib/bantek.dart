@@ -1,5 +1,6 @@
 //hotspot hp 192.168.43.231
 //hotspot laptop 192.168.137.1
+//wifi gmf 172.16.166.135
 //dev gmf 172.16.40.190
 //https://talentlead.gmf-aeroasia.co.id/images/avatar/532070.jpg
 // static const String url = "https://api.banghasan.com/quran/format/json/surat";
@@ -11,7 +12,8 @@ import 'package:bantek/pages/formbantek_screen.dart';
 import 'package:bantek/pages/login_screen.dart';
 import 'package:bantek/pages/splash_screen.dart';
 class Bantek {
-  static const String server_url='http://192.168.137.1';
+  static const String server_ip='172.16.137.31';
+  static const String server_url='http://'+server_ip;
   static const String name = "BANTEK APP";
   static const String store = "Bantek Online Mobile Apps";
   static const String wt1 = "WELCOME";
@@ -26,6 +28,7 @@ class Bantek {
   static const String url_uploads_invoice = server_url+"/bantek_api/update_invoice.php";
   static const String url_uploads_voucher = server_url+"/bantek_api/update_voucher.php";
   static const String url_uploads_aml = server_url+"/bantek_api/update_aml.php";
+  static const String url_list_aircraft = server_url+"/bantek_api/aircraft.jpg";
   static void goToHomeUser(BuildContext context) {
     Navigator.pushNamed(context, "/homeuser");
   }
@@ -41,6 +44,9 @@ class Bantek {
   }
   static void goToLogin(BuildContext context) {
     Navigator.pushNamed(context, "/login");
+  }
+  static void goToListAircraft(BuildContext context) {
+    Navigator.pushNamed(context, "/listaircraft");
   }
   static void goToLogout(BuildContext context) {
     Navigator.of(context).pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false);

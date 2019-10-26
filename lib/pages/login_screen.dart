@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'dart:io';
 
 class LoginScreen extends StatefulWidget {
   static String tag = 'login-page';
@@ -15,7 +16,23 @@ class LoginScreen extends StatefulWidget {
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 class _LoginScreenState extends State<LoginScreen> {
- 
+ Future checklogin() async {
+      try {
+  final result = await InternetAddress.lookup(Bantek.server_ip);
+  if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+    print('connected');
+  }
+} on SocketException catch (_) {
+  return showDialog(context: context,builder: (context) {return AlertDialog(content: Text("Cannot connect to Server"),);
+            },
+          );
+}
+ }
+ @override
+ void initState() {
+   this.checklogin();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     final logo = Hero(

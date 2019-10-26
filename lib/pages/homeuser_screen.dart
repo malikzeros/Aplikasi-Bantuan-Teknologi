@@ -179,7 +179,7 @@ class _HomeUserScreenState extends State<HomeUserScreen>
   Widget build(BuildContext context) {
     return Scaffold(
         body: Column(
-      children: <Widget>[profiling(), buttongroup(), listbantek()],
+      children: <Widget>[profiling(),horizontalline(), buttongroup(), listbantek()],
     ));
   }
 
@@ -232,7 +232,13 @@ class _HomeUserScreenState extends State<HomeUserScreen>
           ],
         ));
   }
-
+  Widget horizontalline(){
+    return Container(
+      margin: new EdgeInsetsDirectional.only(start: 0.0, end: 0.0),
+      height: 5.0,
+      color: Colors.green,
+    );
+  }
   Widget buttongroup() {
     return Container(
       child: Column(

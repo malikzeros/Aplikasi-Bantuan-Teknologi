@@ -5,6 +5,7 @@ import 'package:bantek/pages/formupload_screen.dart';
 import 'package:bantek/pages/formbantek_screen.dart';
 import 'package:bantek/pages/login_screen.dart';
 import 'package:bantek/pages/splash_screen.dart';
+import 'package:bantek/pages/list_aircraft_screen.dart';
 
 var routes = <String, WidgetBuilder>{
   "/homeuser": (BuildContext context) => HomeUserScreen(),
@@ -12,6 +13,7 @@ var routes = <String, WidgetBuilder>{
   "/formupload": (BuildContext context) => FormUpload(),
   "/formbantek": (BuildContext context) => FormBantek(),
   "/login": (BuildContext context) => LoginScreen(),
+  "/listaircraft": (BuildContext context) => ListAircraftScreen(),
 };
 
 void main() => runApp(new MaterialApp(

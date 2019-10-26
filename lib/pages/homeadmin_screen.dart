@@ -210,7 +210,7 @@ class _HomeAdminScreenState extends State<HomeAdminScreen>
   Widget build(BuildContext context) {
     return Scaffold(
         body: Column(
-      children: <Widget>[profiling(), buttongroup(), listbantek()],
+      children: <Widget>[profiling(),horizontalline(), buttongroup(), listbantek()],
     ));
   }
 
@@ -263,7 +263,13 @@ class _HomeAdminScreenState extends State<HomeAdminScreen>
           ],
         ));
   }
-
+Widget horizontalline(){
+    return Container(
+      margin: new EdgeInsetsDirectional.only(start: 0.0, end: 0.0),
+      height: 5.0,
+      color: Colors.green,
+    );
+  }
   Widget buttongroup() {
     return Container(
       child: Column(
