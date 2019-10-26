@@ -1,8 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:bantek/utils/bantek.dart';
-import 'package:bantek/utils/my_navigator.dart';
+import 'package:bantek/bantek.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -14,7 +13,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Timer(Duration(seconds: 5), () => MyNavigator.goToLogin(context));
+    Timer(Duration(seconds: 5), () => Bantek.goToLogin(context));
   }
 
   @override

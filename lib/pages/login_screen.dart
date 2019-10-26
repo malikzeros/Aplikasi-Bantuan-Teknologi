@@ -1,11 +1,7 @@
-import 'package:bantek/utils/bantek.dart';
 import 'package:flutter/material.dart';
-import 'package:bantek/utils/bantek.dart';
-import 'package:bantek/utils/my_navigator.dart';
+import 'package:bantek/bantek.dart';
 import 'package:bantek/widgets/walkthrough.dart';
-import 'package:bantek/utils/my_navigator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -61,19 +57,17 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
         onPressed: () async {
           var response = await http.post(Bantek.url_login, body: {'id': usernameController.text, 'password': passwordController.text},headers: { 'accept':'application/json' });
-          print('Response status: ${response.statusCode}');
-          print('Response body: ${response.body}');
-          var content = json.decode(response.body);
-          
+          var content = json.decode(response.body);          
           SharedPreferences prefs = await SharedPreferences.getInstance();
-          prefs.setString('name', content['name']);
-          prefs.setString('id', content['id']);
-          prefs.setString('division', content['division']);
+          prefs.setString('nama', content['nama']);
+          prefs.setString('nopeg', content['nopeg']);
+          prefs.setString('unit', content['unit']);
+          prefs.setString('email', content['email']);
           
           if(content['role']=='user')
-          MyNavigator.goToHomeUser(context);
+          Bantek.goToHomeUser(context);
           else if(content['role']=='admin')
-          MyNavigator.goToHomeAdmin(context);
+          Bantek.goToHomeAdmin(context);
           else
             return showDialog(context: context,builder: (context) {return AlertDialog(content: Text("Nopeg and Password Incorrect"),);
             },

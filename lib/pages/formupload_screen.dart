@@ -1,10 +1,6 @@
-import 'package:bantek/utils/bantek.dart';
 import 'package:flutter/material.dart';
-import 'package:bantek/utils/bantek.dart';
-import 'package:bantek/utils/my_navigator.dart';
+import 'package:bantek/bantek.dart';
 import 'package:bantek/widgets/walkthrough.dart';
-import 'package:bantek/utils/my_navigator.dart';
-
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;

@@ -1,10 +1,7 @@
-import 'package:bantek/utils/bantek.dart';
-import 'package:flutter/material.dart';
-import 'package:bantek/utils/bantek.dart';
-import 'package:bantek/utils/my_navigator.dart';
-import 'package:bantek/widgets/walkthrough.dart';
-import 'package:bantek/utils/my_navigator.dart';
 
+import 'package:flutter/material.dart';
+import 'package:bantek/bantek.dart';
+import 'package:bantek/widgets/walkthrough.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -388,7 +385,7 @@ class _FormBantekState extends State<FormBantek> {
                     print(res.statusCode);
                     print(res.body);
 					return showDialog(context: context,builder: (context) {return AlertDialog(content: Text("Input Success"),);},);
-					//MyNavigator.goToHomeUser(context);
+					//Bantek.goToHomeUser(context);
                   }).catchError((err) {
                     print(err);
                   });
