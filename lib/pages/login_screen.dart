@@ -74,7 +74,8 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
         onPressed: () async {
           var response = await http.post(Bantek.url_login, body: {'id': usernameController.text, 'password': passwordController.text},headers: { 'accept':'application/json' });
-          var content = json.decode(response.body);          
+          var content = json.decode(response.body); 
+		  print(content);
           SharedPreferences prefs = await SharedPreferences.getInstance();
           prefs.setString('nama', content['nama']);
           prefs.setString('nopeg', content['nopeg']);

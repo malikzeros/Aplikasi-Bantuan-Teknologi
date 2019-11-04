@@ -1,9 +1,4 @@
-//hotspot hp 192.168.43.231
-//hotspot laptop 192.168.137.1
-//wifi gmf 172.16.166.135
-//dev gmf 172.16.40.190
 //https://talentlead.gmf-aeroasia.co.id/images/avatar/532070.jpg
-// static const String url = "https://api.banghasan.com/quran/format/json/surat";
 import 'package:flutter/material.dart';
 import 'package:bantek/pages/homeuser_screen.dart';
 import 'package:bantek/pages/homeadmin_screen.dart';
@@ -12,7 +7,7 @@ import 'package:bantek/pages/formbantek_screen.dart';
 import 'package:bantek/pages/login_screen.dart';
 import 'package:bantek/pages/splash_screen.dart';
 class Bantek {
-  static const String server_ip='172.16.137.31';
+  static const String server_ip='172.16.137.100';
   static const String server_url='http://'+server_ip;
   static const String name = "BANTEK APP";
   static const String store = "Bantek Online Mobile Apps";
