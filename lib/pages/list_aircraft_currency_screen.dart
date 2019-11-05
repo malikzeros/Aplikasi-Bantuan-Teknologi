@@ -6,17 +6,17 @@ import 'package:http/http.dart' as http;
 import 'package:bantek/bantek.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class ListAircraftToScreen extends StatefulWidget {
+class ListAircraftCurrencyScreen extends StatefulWidget {
   @override
-  _ListAircraftToScreenState createState() => new _ListAircraftToScreenState();
+  _ListAircraftCurrencyScreenState createState() => new _ListAircraftCurrencyScreenState();
 }
 
-class _ListAircraftToScreenState extends State<ListAircraftToScreen> {
+class _ListAircraftCurrencyScreenState extends State<ListAircraftCurrencyScreen> {
   TextEditingController controller = new TextEditingController();
 
   // Get json result and convert it to model. Then add
   Future<Null> getUserDetails() async {
-    final response = await http.get(Bantek.url_airport);
+    final response = await http.get(Bantek.url_Currency);
     final responseJson = json.decode(response.body);
     print(responseJson);
 
@@ -39,7 +39,7 @@ class _ListAircraftToScreenState extends State<ListAircraftToScreen> {
     return new Scaffold(
       appBar: new AppBar(
         backgroundColor: Colors.blue,
-        title: new Text('Airport List'),
+        title: new Text('Currency Number List'),
         elevation: 0.0,
       ),
       body: new Column(
@@ -73,14 +73,12 @@ class _ListAircraftToScreenState extends State<ListAircraftToScreen> {
                 return new Card(
                   child: new ListTile(
                     leading: new CircleAvatar(backgroundImage: new NetworkImage(_searchResult[i].profileUrl,),),
-                    title: new Text(_searchResult[i].name + ' ' + _searchResult[i].code),  
-                    subtitle: new Text(_searchResult[i].location),  
+                    title: new Text(_searchResult[i].Currency_number),  
+                    subtitle: new Text(_searchResult[i].destination_type),  
                     onTap: () async {
                       SharedPreferences prefs = await SharedPreferences.getInstance();
-                      prefs.setString('listtoname', _searchResult[i].name);
-                      prefs.setString('listtocode', _searchResult[i].code);
-                      prefs.setString('listtolocation', _searchResult[i].location);
-                      Bantek.goToFormBantekPOP(context);
+                      prefs.setString('Currencynumber', _searchResult[i].Currency_number);
+                      Bantek.goToFormBantek(context);
                     },                
                   ),
                   margin: const EdgeInsets.all(0.0),
@@ -93,14 +91,12 @@ class _ListAircraftToScreenState extends State<ListAircraftToScreen> {
                 return new Card(
                   child: new ListTile(
                     leading: new CircleAvatar(backgroundImage: new NetworkImage(_userDetails[index].profileUrl,),),
-                    title: new Text(_userDetails[index].name + ' ' + _userDetails[index].code),
-                    subtitle: new Text(_userDetails[index].location),
+                    title: new Text(_userDetails[index].Currency_number),
+                    subtitle: new Text(_userDetails[index].destination_type),
                     onTap: () async {
                       SharedPreferences prefs = await SharedPreferences.getInstance();
-                      prefs.setString('listtoname', _userDetails[index].name);
-                      prefs.setString('listtocode', _userDetails[index].code);
-                      prefs.setString('listtolocation', _userDetails[index].location);
-                      Bantek.goToFormBantekPOP(context);
+                      prefs.setString('Currencynumber', _userDetails[index].Currency_number);
+                      Bantek.goToFormUpload(context);
                     },
                   ),
                   margin: const EdgeInsets.all(0.0),
@@ -121,7 +117,7 @@ class _ListAircraftToScreenState extends State<ListAircraftToScreen> {
     }
 
     _userDetails.forEach((userDetail) {
-      if (userDetail.code.contains(text) || userDetail.name.contains(text))
+      if (userDetail.Currency_number.contains(text) || userDetail.destination_type.contains(text))
         _searchResult.add(userDetail);
     });
 
@@ -134,17 +130,15 @@ List<UserDetails> _searchResult = [];
 List<UserDetails> _userDetails = [];
 class UserDetails {
   final int id;
-  final String code, name,city,location, profileUrl;
+  final String Currency_number, destination_type, profileUrl;
 
-  UserDetails({this.id, this.code, this.name,this.city,this.location , this.profileUrl = Bantek.url_list_aircraft});
+  UserDetails({this.id, this.Currency_number, this.destination_type, this.profileUrl = Bantek.url_Currency});
 
   factory UserDetails.fromJson(Map<String, dynamic> json) {
     return new UserDetails(
-      id: json['id_airport'],
-      code: json['code'],
-      name: json['name'],
-      city: json['city'],
-      location: json['location'],
+      id: json['id_Currency'],
+      Currency_number: json['Currency_number'],
+      destination_type: json['destination_type'],
     );
   }
 }

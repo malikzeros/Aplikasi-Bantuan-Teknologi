@@ -188,7 +188,7 @@ class _FormUploadState extends State<FormUpload> {
                     borderRadius: BorderRadius.circular(32.0)),
               ),
             ),
-          ),
+          ),          
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -347,9 +347,10 @@ class _FormUploadState extends State<FormUpload> {
                     // String fileName = file_aml.path.split("/").last;
                     http.post(Bantek.url_uploads_sppd, body: {
                       "sppd_image": base64Image,
-                      "id": id,
-                      "id_bantek": id_bantek,
-                    }).then((res) {
+                      "sppdnumber": sppdnumber.toString(),
+                      "id": id.toString(),
+                      "id_bantek": id_bantek.toString(),                      
+                    },headers: { 'accept':'application/json' }).then((res) {
                       print(res.statusCode);
                       print(res.body);
                     }).catchError((err) {
@@ -363,9 +364,9 @@ class _FormUploadState extends State<FormUpload> {
 
                     http.post(Bantek.url_uploads_tiket, body: {
                       "tiket_image": base64Image,
-                      "id": id,
-                      "id_bantek": id_bantek,
-                      "tiket_amount": tiket_amount.text,
+                      "id": id.toString(),
+                      "id_bantek": id_bantek.toString(),
+                      "tiket_amount": tiket_amount.text.toString(),
                     }).then((res) {
                       print(res.statusCode);
                       print(res.body);
@@ -379,9 +380,9 @@ class _FormUploadState extends State<FormUpload> {
                     // String fileName = file_aml.path.split("/").last;
                     http.post(Bantek.url_uploads_invoice, body: {
                       "invoice_image": base64Image,
-                      "id": id,
-                      "id_bantek": id_bantek,
-                      "invoice_amount": invoice_amount.text,
+                      "id": id.toString(),
+                      "id_bantek": id_bantek.toString(),
+                      "invoice_amount": invoice_amount.text.toString(),                      
                     }).then((res) {
                       print(res.statusCode);
                       print(res.body);
@@ -395,9 +396,9 @@ class _FormUploadState extends State<FormUpload> {
                     // String fileName = file_aml.path.split("/").last;
                     http.post(Bantek.url_uploads_voucher, body: {
                       "voucher_image": base64Image,
-                      "id": id,
-                      "id_bantek": id_bantek,
-                      "voucher_amount": voucher_amount.text,
+                      "id": id.toString(),
+                      "id_bantek": id_bantek.toString(),
+                      "voucher_amount": voucher_amount.text.toString(),
                     }).then((res) {
                       print(res.statusCode);
                       print(res.body);
@@ -411,8 +412,8 @@ class _FormUploadState extends State<FormUpload> {
                     // String fileName = file_aml.path.split("/").last;
                     http.post(Bantek.url_uploads_aml, body: {
                       "aml_image": base64Image,
-                      "id": id,
-                      "id_bantek": id_bantek,
+                      "id": id.toString(),
+                      "id_bantek": id_bantek.toString(),
                     }).then((res) {
                       print(res.statusCode);
                       print(res.body);

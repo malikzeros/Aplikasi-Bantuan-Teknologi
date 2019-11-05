@@ -12,6 +12,7 @@ import 'package:bantek/pages/list_aircraft_transit2_screen.dart';
 import 'package:bantek/pages/list_aircraft_transit3_screen.dart';
 import 'package:bantek/pages/list_aircraft_transit4_screen.dart';
 import 'package:bantek/pages/list_aircraft_sppd_screen.dart';
+import 'package:bantek/pages/list_aircraft_currency_screen.dart';
 
 var routes = <String, WidgetBuilder>{
   "/homeuser": (BuildContext context) => HomeUserScreen(),
@@ -26,6 +27,7 @@ var routes = <String, WidgetBuilder>{
   "/listaircrafttransit3": (BuildContext context) => ListAircraftTransit3Screen(),
   "/listaircrafttransit4": (BuildContext context) => ListAircraftTransit4Screen(),
   "/listaircraftsppd": (BuildContext context) => ListAircraftSPPDScreen(),
+  "/listaircraftcurrency": (BuildContext context) => ListAircraftCurrencyScreen(),
 };
 
 void main() => runApp(new MaterialApp(

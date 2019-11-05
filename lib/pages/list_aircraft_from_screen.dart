@@ -39,7 +39,7 @@ class _ListAircraftFromScreenState extends State<ListAircraftFromScreen> {
     return new Scaffold(
       appBar: new AppBar(
         backgroundColor: Colors.blue,
-        title: new Text('Aircraft List'),
+        title: new Text('Airport List'),
         elevation: 0.0,
       ),
       body: new Column(
@@ -80,7 +80,7 @@ class _ListAircraftFromScreenState extends State<ListAircraftFromScreen> {
                       prefs.setString('listfromname', _searchResult[i].name);
                       prefs.setString('listfromcode', _searchResult[i].code);
                       prefs.setString('listfromlocation', _searchResult[i].location);
-                      Bantek.goToFormBantek(context);
+                      Bantek.goToFormBantekPOP(context);
                     },                
                   ),
                   margin: const EdgeInsets.all(0.0),
@@ -100,7 +100,7 @@ class _ListAircraftFromScreenState extends State<ListAircraftFromScreen> {
                       prefs.setString('listfromname', _userDetails[index].name);
                       prefs.setString('listfromcode', _userDetails[index].code);
                       prefs.setString('listfromlocation', _userDetails[index].location);
-                      Bantek.goToFormBantek(context);
+                      Bantek.goToFormBantekPOP(context);
                     },
                   ),
                   margin: const EdgeInsets.all(0.0),

@@ -587,6 +587,7 @@ class _HomeUserScreenState extends State<HomeUserScreen>
               SharedPreferences prefs = await SharedPreferences.getInstance();
               prefs.setString('id_bantek', idBantek.toString());
               prefs.setString('amountperday', amountperday.toString());
+              print(amountperday);
               Bantek.goToFormUpload(context);
             },
           ),

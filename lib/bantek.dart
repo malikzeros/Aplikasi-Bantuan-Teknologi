@@ -6,8 +6,9 @@ import 'package:bantek/pages/formupload_screen.dart';
 import 'package:bantek/pages/formbantek_screen.dart';
 import 'package:bantek/pages/login_screen.dart';
 import 'package:bantek/pages/splash_screen.dart';
+import 'package:flutter/material.dart' as prefix0;
 class Bantek {
-  static const String server_ip='172.16.137.119';
+  static const String server_ip='192.168.137.1';
   static const String server_url='http://'+server_ip;
   static const String name = "BANTEK APP";
   static const String store = "Bantek Online Mobile Apps";
@@ -15,6 +16,7 @@ class Bantek {
   static const String wc1 = "Please login to continue using this app";
   static const String url_list = server_url+"/bantek_api/tripList_api.php";
   static const String url_sppd = server_url+"/bantek_api/sppd_api.php";
+  static const String url_Currency = server_url+"/bantek_api/currency_api.php";
   static const String url_submit_status = server_url+"/bantek_api/submit_status.php";
   static const String url_submit_form = server_url+"/bantek_api/submit_form.php";
   static const String url_login = server_url+"/bantek_api/login.php";
@@ -37,6 +39,15 @@ class Bantek {
   static void goToFormUpload(BuildContext context) {
     //Navigator.pushNamed(context, "/formupload");
 	Navigator.push(context,MaterialPageRoute(builder: (context) => FormUpload(),),);
+  }
+  static void goToFormBantekPOP(BuildContext context) {
+    // Navigator.of(context).pushNamedAndRemoveUntil('/formbantek', (Route<dynamic> route) => false);
+    Navigator.popAndPushNamed(context, "/formbantek");
+  }
+  static void goToFormUploadPOP(BuildContext context) {
+    // Navigator.pushReplacementNamed(context, "/formupload");
+    Navigator.popAndPushNamed(context, "/formupload");
+	// Navigator.popAndPushNamed(context,MaterialPageRoute(builder: (context) => FormUpload(),),);
   }
   static void goToLogin(BuildContext context) {
     Navigator.pushNamed(context, "/login");
@@ -61,6 +72,9 @@ class Bantek {
   }
   static void goToListSppd(BuildContext context) {
     Navigator.pushNamed(context, "/listaircraftsppd");
+  }
+  static void goToListCurrency(BuildContext context) {
+    Navigator.pushNamed(context, "/listaircraftcurrency");
   }
   static void goToLogout(BuildContext context) {
     Navigator.of(context).pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false);
