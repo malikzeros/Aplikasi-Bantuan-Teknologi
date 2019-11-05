@@ -7,13 +7,14 @@ import 'package:bantek/pages/formbantek_screen.dart';
 import 'package:bantek/pages/login_screen.dart';
 import 'package:bantek/pages/splash_screen.dart';
 class Bantek {
-  static const String server_ip='172.16.137.100';
+  static const String server_ip='172.16.137.119';
   static const String server_url='http://'+server_ip;
   static const String name = "BANTEK APP";
   static const String store = "Bantek Online Mobile Apps";
   static const String wt1 = "WELCOME";
   static const String wc1 = "Please login to continue using this app";
   static const String url_list = server_url+"/bantek_api/tripList_api.php";
+  static const String url_sppd = server_url+"/bantek_api/sppd_api.php";
   static const String url_submit_status = server_url+"/bantek_api/submit_status.php";
   static const String url_submit_form = server_url+"/bantek_api/submit_form.php";
   static const String url_login = server_url+"/bantek_api/login.php";
@@ -40,8 +41,26 @@ class Bantek {
   static void goToLogin(BuildContext context) {
     Navigator.pushNamed(context, "/login");
   }
-  static void goToListAircraft(BuildContext context) {
-    Navigator.pushNamed(context, "/listaircraft");
+  static void goToListAircraftFrom(BuildContext context) {
+    Navigator.pushNamed(context, "/listaircraftfrom");
+  }
+  static void goToListAircraftTo(BuildContext context) {
+    Navigator.pushNamed(context, "/listaircraftto");
+  }
+  static void goToListAircraftTransit1(BuildContext context) {
+    Navigator.pushNamed(context, "/listaircrafttransit1");
+  }
+  static void goToListAircraftTransit2(BuildContext context) {
+    Navigator.pushNamed(context, "/listaircrafttransit2");
+  }
+  static void goToListAircraftTransit3(BuildContext context) {
+    Navigator.pushNamed(context, "/listaircrafttransit3");
+  }
+  static void goToListAircraftTransit4(BuildContext context) {
+    Navigator.pushNamed(context, "/listaircrafttransit4");
+  }
+  static void goToListSppd(BuildContext context) {
+    Navigator.pushNamed(context, "/listaircraftsppd");
   }
   static void goToLogout(BuildContext context) {
     Navigator.of(context).pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false);

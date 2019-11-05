@@ -17,6 +17,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 TextEditingController departure_date = TextEditingController();
 TextEditingController return_date = TextEditingController();
 String type_of_bantek;
+String listfromname,listfromcode,listfromlocation;
+String listtoname,listtocode,listtolocation;
+String listtransit1name,listtransit1code,listtransit1location;
+String listtransit2name,listtransit2code,listtransit2location;
+String listtransit3name,listtransit3code,listtransit3location;
+String listtransit4name,listtransit4code,listtransit4location;
 int fromdeparture, todeparture;
 
 class FormBantek extends StatefulWidget {
@@ -29,6 +35,7 @@ class _FormBantekState extends State<FormBantek> {
   // List<SearchItem<int>> searchpanel;
   var content;
   String dropdownValue;
+  String sppdnumber;
   final format = DateFormat("yyyy-MM-dd");
   List data = List(); //edited line
   final String url_airport = Bantek.url_airport;
@@ -39,7 +46,9 @@ class _FormBantekState extends State<FormBantek> {
     // print('Response body: ${response.body}');
     content = json.decode(response.body);
     print(content.length);
+    // SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
+      // sppdnumber = prefs.getString('nama');
       // searchpanel.addAll(content);
     });
   }
@@ -68,66 +77,108 @@ class _FormBantekState extends State<FormBantek> {
                       Card(
                         color: Colors.grey[200],
                         child: ListTile(
-                          leading: new CircleAvatar(backgroundImage: AssetImage('assets/icon.png')),
-                          title: Text("Departing From",style: TextStyle(color: Colors.green),),
-                          subtitle: Text("CGK Jakarta",style: TextStyle(color: Colors.blue),),
-                          onTap: (){
-                            Bantek.goToListAircraft(context);
+                          leading: new CircleAvatar(
+                              backgroundImage: AssetImage('assets/icon.png')),
+                          title: Text(
+                            "Departing From",
+                            style: TextStyle(color: Colors.green),
+                          ),
+                          subtitle: Text(
+                            "CGK Jakarta",
+                            style: TextStyle(color: Colors.blue),
+                          ),
+                          onTap: () {
+                            Bantek.goToListAircraftFrom(context);
                           },
                         ),
                       ),
                       Card(
                         color: Colors.grey[200],
                         child: ListTile(
-                          leading: new CircleAvatar(backgroundImage: AssetImage('assets/icon.png')),
-                          title: Text("Flying To",style: TextStyle(color: Colors.green),),
-                          subtitle: Text("DPS Denpasar",style: TextStyle(color: Colors.blue),),
-                          onTap: (){
-                            Bantek.goToListAircraft(context);
+                          leading: new CircleAvatar(
+                              backgroundImage: AssetImage('assets/icon.png')),
+                          title: Text(
+                            "Flying To",
+                            style: TextStyle(color: Colors.green),
+                          ),
+                          subtitle: Text(
+                            "DPS Denpasar",
+                            style: TextStyle(color: Colors.blue),
+                          ),
+                          onTap: () {
+                            Bantek.goToListAircraftTo(context);
                           },
                         ),
                       ),
                       Card(
                         color: Colors.grey[200],
                         child: ListTile(
-                          leading: new CircleAvatar(backgroundImage: AssetImage('assets/icon.png')),
-                          title: Text("Flying To (For Transit)",style: TextStyle(color: Colors.green),),
-                          subtitle: Text("DPS Denpasar",style: TextStyle(color: Colors.blue),),
-                          onTap: (){
-                            Bantek.goToListAircraft(context);
+                          leading: new CircleAvatar(
+                              backgroundImage: AssetImage('assets/icon.png')),
+                          title: Text(
+                            "Flying To (For Transit)",
+                            style: TextStyle(color: Colors.green),
+                          ),
+                          subtitle: Text(
+                            "DPS Denpasar",
+                            style: TextStyle(color: Colors.blue),
+                          ),
+                          onTap: () {
+                            Bantek.goToListAircraftTransit1(context);
                           },
                         ),
                       ),
                       Card(
                         color: Colors.grey[200],
                         child: ListTile(
-                          leading: new CircleAvatar(backgroundImage: AssetImage('assets/icon.png')),
-                          title: Text("Flying To (For Transit)",style: TextStyle(color: Colors.green),),
-                          subtitle: Text("DPS Denpasar",style: TextStyle(color: Colors.blue),),
-                          onTap: (){
-                            Bantek.goToListAircraft(context);
+                          leading: new CircleAvatar(
+                              backgroundImage: AssetImage('assets/icon.png')),
+                          title: Text(
+                            "Flying To (For Transit)",
+                            style: TextStyle(color: Colors.green),
+                          ),
+                          subtitle: Text(
+                            "DPS Denpasar",
+                            style: TextStyle(color: Colors.blue),
+                          ),
+                          onTap: () {
+                            Bantek.goToListAircraftTransit2(context);
                           },
                         ),
                       ),
                       Card(
                         color: Colors.grey[200],
                         child: ListTile(
-                          leading: new CircleAvatar(backgroundImage: AssetImage('assets/icon.png')),
-                          title: Text("Flying To (For Transit)",style: TextStyle(color: Colors.green),),
-                          subtitle: Text("DPS Denpasar",style: TextStyle(color: Colors.blue),),
-                          onTap: (){
-                            Bantek.goToListAircraft(context);
+                          leading: new CircleAvatar(
+                              backgroundImage: AssetImage('assets/icon.png')),
+                          title: Text(
+                            "Flying To (For Transit)",
+                            style: TextStyle(color: Colors.green),
+                          ),
+                          subtitle: Text(
+                            "DPS Denpasar",
+                            style: TextStyle(color: Colors.blue),
+                          ),
+                          onTap: () {
+                            Bantek.goToListAircraftTransit3(context);
                           },
                         ),
                       ),
                       Card(
                         color: Colors.grey[200],
                         child: ListTile(
-                          leading: new CircleAvatar(backgroundImage: AssetImage('assets/icon.png')),
-                          title: Text("Flying To (For Transit)",style: TextStyle(color: Colors.green),),
-                          subtitle: Text("DPS Denpasar",style: TextStyle(color: Colors.blue),),
-                          onTap: (){
-                            Bantek.goToListAircraft(context);
+                          leading: new CircleAvatar(
+                              backgroundImage: AssetImage('assets/icon.png')),
+                          title: Text(
+                            "Flying To (For Transit)",
+                            style: TextStyle(color: Colors.green),
+                          ),
+                          subtitle: Text(
+                            "DPS Denpasar",
+                            style: TextStyle(color: Colors.blue),
+                          ),
+                          onTap: () {
+                            Bantek.goToListAircraftTransit4(context);
                           },
                         ),
                       )

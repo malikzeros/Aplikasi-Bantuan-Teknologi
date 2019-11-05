@@ -22,6 +22,7 @@ class _HomeUserScreenState extends State<HomeUserScreen>
   String nopeg = '582813';
   String unit = 'JTKTOB-3';
   String email = 'email@gmf-aeroasia.co.id';
+  String voucher_amount = '4000';
   /////////////////////////////////////////////////////////////////////////////////////////////////
   ///Controller
   /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -32,6 +33,7 @@ class _HomeUserScreenState extends State<HomeUserScreen>
       nopeg = prefs.getString('nopeg');
       unit = prefs.getString('unit');
       email = prefs.getString('email');
+      voucher_amount = prefs.getString('voucher_amount');
       var res = await http.post(Uri.encodeFull(Bantek.url_list),
           body: {'nopeg': nopeg}, headers: {'accept': 'application/json'});
       setState(() {
@@ -164,10 +166,6 @@ class _HomeUserScreenState extends State<HomeUserScreen>
     Bantek.goToLogin(context);
   }
 
-  void bantekupload() {
-    Bantek.goToFormUpload(context);
-  }
-
   void bantekform() {
     Bantek.goToFormBantek(context);
   }
@@ -260,18 +258,6 @@ class _HomeUserScreenState extends State<HomeUserScreen>
                 onPressed: bantekform,
               ),
               SizedBox(width: 20,),
-              RaisedButton.icon(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(24),
-                ),
-                color: Colors.white,
-                icon: Icon(
-                  Icons.file_upload,
-                  color: Colors.blue,
-                ),
-                label: Text("Upload", style: TextStyle(color: Colors.blue)),
-                onPressed: bantekupload,
-              ),
               PopupMenuButton(
                 icon: Icon(
                   Icons.local_bar,
@@ -563,7 +549,7 @@ class _HomeUserScreenState extends State<HomeUserScreen>
                       ),
                       ButtonTheme.bar(
                           child: _status(
-                              data[index]['status'], data[index]['id_bantek']))
+                              data[index]['status'], data[index]['id_bantek'],data[index]['amount_per_day']))
                     ],
                   ),
                 ),
@@ -591,13 +577,18 @@ class _HomeUserScreenState extends State<HomeUserScreen>
     }
   }
 
-  Widget _status(status, id_bantek) {
+  Widget _status(status, idBantek,amountperday) {
     if (status == 'Y') {
       return ButtonBar(
         children: <Widget>[
           FlatButton(
             child: const Text('Upload Data', style: TextStyle(color: Colors.blue)),
-            onPressed: bantekupload,
+            onPressed: () async {
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+              prefs.setString('id_bantek', idBantek.toString());
+              prefs.setString('amountperday', amountperday.toString());
+              Bantek.goToFormUpload(context);
+            },
           ),
         ],
       );
