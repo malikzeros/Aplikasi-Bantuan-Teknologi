@@ -137,7 +137,9 @@ class _HomeAdminScreenState extends State<HomeAdminScreen>
     super.dispose();
   }
 
-  void banteklogout() {
+  Future banteklogout() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.clear();
     Bantek.goToLogin(context);
   }
 

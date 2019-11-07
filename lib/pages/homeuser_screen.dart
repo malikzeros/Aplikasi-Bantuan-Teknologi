@@ -162,7 +162,9 @@ class _HomeUserScreenState extends State<HomeUserScreen>
     super.dispose();
   }
 
-  void banteklogout() {
+  Future banteklogout() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.clear();
     Bantek.goToLogin(context);
   }
 
