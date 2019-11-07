@@ -1,12 +1,14 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:bantek/bantek.dart';
+import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:csv/csv.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:esys_flutter_share/esys_flutter_share.dart';
 
 class HomeAdminScreen extends StatefulWidget {
   @override
@@ -162,6 +164,7 @@ class _HomeAdminScreenState extends State<HomeAdminScreen>
     row.add("Voucher Amount");
     row.add("Aml Image");
     row.add("Status");
+    row.add("SPPD Number");
     rows.add(row);
     for (int i = 0; i <= data.length - 1; i++) {
       List<dynamic> row = List();
@@ -185,22 +188,30 @@ class _HomeAdminScreenState extends State<HomeAdminScreen>
       row.add(data[i]['voucher_amount']);
       row.add(data[i]['aml_image']);
       row.add(data[i]['status']);
+      row.add(data[i]['sppdnumber']);
       rows.add(row);
     }
     Directory appDocDir = await getExternalStorageDirectory();
     String appDocPath = appDocDir.path;
     print(" FILE " + appDocPath);
-    File f = new File(appDocPath + "report.csv");
+    File f = new File(appDocPath + "/report.csv");
     String csv = const ListToCsvConverter().convert(rows);
     f.writeAsString(csv);
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          content: Text("File : " + appDocPath + "report.csv"),
-        );
-      },
-    );
+    try {
+      // final ByteData bytes = await rootBundle.load(appDocPath+'/report.csv');
+      var bytes = await f.readAsBytes();
+      await Share.file('Share The Report','report.csv',bytes.buffer.asUint8List(),'*/*',text: "Report Bantek");
+    } catch (e) {
+      print('error: $e');
+    }
+    // showDialog(
+    //   context: context,
+    //   builder: (context) {
+    //     return AlertDialog(
+    //       content: Text("File : " + appDocPath + "report.csv"),
+    //     );
+    //   },
+    // );
   }
 
   /////////////////////////////////////////////////////////////////////////////////////////////////

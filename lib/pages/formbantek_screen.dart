@@ -76,7 +76,8 @@ class _FormBantekState extends State<FormBantek> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return WillPopScope(
+      child: Scaffold(
         appBar:
             AppBar(backgroundColor: Colors.blue, title: Text("Form Bantek")),
         body: Center(
@@ -357,6 +358,24 @@ class _FormBantekState extends State<FormBantek> {
                     }).then((res) {
                       print(res.statusCode);
                       print(res.body);
+                      prefs.remove("listfromname");
+                      prefs.remove("listfromcode");
+                      prefs.remove("listfromlocation");
+                      prefs.remove("listtoname");
+                      prefs.remove("listtocode");
+                      prefs.remove("listtolocation");
+                      prefs.remove("listtransit1name");
+                      prefs.remove("listtransit1code");
+                      prefs.remove("listtransit1location");
+                      prefs.remove("listtransit2name");
+                      prefs.remove("listtransit2code");
+                      prefs.remove("listtransit2location");
+                      prefs.remove("listtransit3name");
+                      prefs.remove("listtransit3code");
+                      prefs.remove("listtransit3location");
+                      prefs.remove("listtransit4name");
+                      prefs.remove("listtransit4code");
+                      prefs.remove("listtransit4location");
                       return showDialog(
                         context: context,
                         builder: (context) {
@@ -375,6 +394,10 @@ class _FormBantekState extends State<FormBantek> {
               ],
             ),
           ),
-        ));
+        )),
+        onWillPop: (){
+          Bantek.goToHomeUser(context);
+        },
+    );
   }
 }

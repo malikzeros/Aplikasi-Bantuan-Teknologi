@@ -33,6 +33,10 @@ class _ListAircraftSPPDScreenState extends State<ListAircraftSPPDScreen> {
 
     getUserDetails();
   }
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,13 +76,13 @@ class _ListAircraftSPPDScreenState extends State<ListAircraftSPPDScreen> {
               itemBuilder: (context, i) {
                 return new Card(
                   child: new ListTile(
-                    leading: new CircleAvatar(backgroundImage: new NetworkImage(_searchResult[i].profileUrl,),),
+                    // leading: new CircleAvatar(backgroundImage: new NetworkImage(_searchResult[i].profileUrl,),),
                     title: new Text(_searchResult[i].sppd_number),  
                     subtitle: new Text(_searchResult[i].destination_type),  
                     onTap: () async {
                       SharedPreferences prefs = await SharedPreferences.getInstance();
                       prefs.setString('sppdnumber', _searchResult[i].sppd_number);
-                      Bantek.goToFormBantek(context);
+                      Bantek.goToFormUploadFromSppd(context);
                     },                
                   ),
                   margin: const EdgeInsets.all(0.0),
@@ -90,13 +94,13 @@ class _ListAircraftSPPDScreenState extends State<ListAircraftSPPDScreen> {
               itemBuilder: (context, index) {
                 return new Card(
                   child: new ListTile(
-                    leading: new CircleAvatar(backgroundImage: new NetworkImage(_userDetails[index].profileUrl,),),
+                    // leading: new CircleAvatar(backgroundImage: new NetworkImage(_userDetails[index].profileUrl,),),
                     title: new Text(_userDetails[index].sppd_number),
                     subtitle: new Text(_userDetails[index].destination_type),
                     onTap: () async {
                       SharedPreferences prefs = await SharedPreferences.getInstance();
                       prefs.setString('sppdnumber', _userDetails[index].sppd_number);
-                      Bantek.goToFormUpload(context);
+                      Bantek.goToFormUploadFromSppd(context);
                     },
                   ),
                   margin: const EdgeInsets.all(0.0),

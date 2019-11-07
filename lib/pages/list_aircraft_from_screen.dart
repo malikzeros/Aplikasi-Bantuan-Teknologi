@@ -33,6 +33,10 @@ class _ListAircraftFromScreenState extends State<ListAircraftFromScreen> {
 
     getUserDetails();
   }
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +84,7 @@ class _ListAircraftFromScreenState extends State<ListAircraftFromScreen> {
                       prefs.setString('listfromname', _searchResult[i].name);
                       prefs.setString('listfromcode', _searchResult[i].code);
                       prefs.setString('listfromlocation', _searchResult[i].location);
-                      Bantek.goToFormBantekPOP(context);
+                      Bantek.goToFormBantekFromFrom(context);
                     },                
                   ),
                   margin: const EdgeInsets.all(0.0),
@@ -100,7 +104,7 @@ class _ListAircraftFromScreenState extends State<ListAircraftFromScreen> {
                       prefs.setString('listfromname', _userDetails[index].name);
                       prefs.setString('listfromcode', _userDetails[index].code);
                       prefs.setString('listfromlocation', _userDetails[index].location);
-                      Bantek.goToFormBantekPOP(context);
+                      Bantek.goToFormBantekFromFrom(context);
                     },
                   ),
                   margin: const EdgeInsets.all(0.0),

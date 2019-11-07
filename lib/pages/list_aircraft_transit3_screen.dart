@@ -35,6 +35,11 @@ class _ListAircraftTransit3ScreenState extends State<ListAircraftTransit3Screen>
   }
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
@@ -80,7 +85,7 @@ class _ListAircraftTransit3ScreenState extends State<ListAircraftTransit3Screen>
                       prefs.setString('listtransit3name', _searchResult[i].name);
                       prefs.setString('listtransit3code', _searchResult[i].code);
                       prefs.setString('listtransit3location', _searchResult[i].location);
-                      Bantek.goToFormBantekPOP(context);
+                      Bantek.goToFormBantekFromTransit3(context);
                     },                
                   ),
                   margin: const EdgeInsets.all(0.0),
@@ -100,7 +105,7 @@ class _ListAircraftTransit3ScreenState extends State<ListAircraftTransit3Screen>
                       prefs.setString('listtransit3name', _userDetails[index].name);
                       prefs.setString('listtransit3code', _userDetails[index].code);
                       prefs.setString('listtransit3location', _userDetails[index].location);
-                      Bantek.goToFormBantekPOP(context);
+                      Bantek.goToFormBantekFromTransit3(context);
                     },
                   ),
                   margin: const EdgeInsets.all(0.0),

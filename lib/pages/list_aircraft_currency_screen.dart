@@ -16,7 +16,10 @@ class _ListAircraftCurrencyScreenState extends State<ListAircraftCurrencyScreen>
 
   // Get json result and convert it to model. Then add
   Future<Null> getUserDetails() async {
-    final response = await http.get(Bantek.url_Currency);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var response = await http.post(Uri.encodeFull(Bantek.url_Currency),
+          body: {'isocode': prefs.getString('isocode')}, headers: {'accept': 'application/json'});
+    // final response = await http.get(Bantek.url_Currency);
     final responseJson = json.decode(response.body);
     print(responseJson);
 
@@ -32,6 +35,10 @@ class _ListAircraftCurrencyScreenState extends State<ListAircraftCurrencyScreen>
     super.initState();
 
     getUserDetails();
+  }
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -72,13 +79,14 @@ class _ListAircraftCurrencyScreenState extends State<ListAircraftCurrencyScreen>
               itemBuilder: (context, i) {
                 return new Card(
                   child: new ListTile(
-                    leading: new CircleAvatar(backgroundImage: new NetworkImage(_searchResult[i].profileUrl,),),
-                    title: new Text(_searchResult[i].Currency_number),  
+                    // leading: new CircleAvatar(backgroundImage: new NetworkImage(_searchResult[i].profileUrl,),),
+                    title: new Text(_searchResult[i].currency_number),  
                     subtitle: new Text(_searchResult[i].destination_type),  
                     onTap: () async {
-                      SharedPreferences prefs = await SharedPreferences.getInstance();
-                      prefs.setString('Currencynumber', _searchResult[i].Currency_number);
-                      Bantek.goToFormBantek(context);
+                      SharedPreferences prefs = await SharedPreferences.getInstance();                      
+                      prefs.setString('isocode', _searchResult[i].currency_number);
+                      prefs.setString('value', _searchResult[i].destination_type);
+                      Bantek.goToFormUploadFromCurrency(context);
                     },                
                   ),
                   margin: const EdgeInsets.all(0.0),
@@ -90,13 +98,14 @@ class _ListAircraftCurrencyScreenState extends State<ListAircraftCurrencyScreen>
               itemBuilder: (context, index) {
                 return new Card(
                   child: new ListTile(
-                    leading: new CircleAvatar(backgroundImage: new NetworkImage(_userDetails[index].profileUrl,),),
-                    title: new Text(_userDetails[index].Currency_number),
+                    // leading: new CircleAvatar(backgroundImage: new NetworkImage(_userDetails[index].profileUrl,),),
+                    title: new Text(_userDetails[index].currency_number),
                     subtitle: new Text(_userDetails[index].destination_type),
                     onTap: () async {
                       SharedPreferences prefs = await SharedPreferences.getInstance();
-                      prefs.setString('Currencynumber', _userDetails[index].Currency_number);
-                      Bantek.goToFormUpload(context);
+                      prefs.setString('isocode', _userDetails[index].currency_number);
+                      prefs.setString('value', _userDetails[index].destination_type);
+                      Bantek.goToFormUploadFromCurrency(context);
                     },
                   ),
                   margin: const EdgeInsets.all(0.0),
@@ -117,7 +126,7 @@ class _ListAircraftCurrencyScreenState extends State<ListAircraftCurrencyScreen>
     }
 
     _userDetails.forEach((userDetail) {
-      if (userDetail.Currency_number.contains(text) || userDetail.destination_type.contains(text))
+      if (userDetail.currency_number.contains(text) || userDetail.destination_type.contains(text))
         _searchResult.add(userDetail);
     });
 
@@ -130,15 +139,15 @@ List<UserDetails> _searchResult = [];
 List<UserDetails> _userDetails = [];
 class UserDetails {
   final int id;
-  final String Currency_number, destination_type, profileUrl;
+  final String currency_number, destination_type, profileUrl;
 
-  UserDetails({this.id, this.Currency_number, this.destination_type, this.profileUrl = Bantek.url_Currency});
+  UserDetails({this.id, this.currency_number, this.destination_type, this.profileUrl = Bantek.url_Currency});
 
   factory UserDetails.fromJson(Map<String, dynamic> json) {
     return new UserDetails(
       id: json['id_Currency'],
-      Currency_number: json['Currency_number'],
-      destination_type: json['destination_type'],
+      currency_number: json['isocode'],
+      destination_type: json['value'],
     );
   }
 }

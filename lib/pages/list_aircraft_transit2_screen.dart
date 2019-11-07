@@ -33,6 +33,10 @@ class _ListAircraftTransit2ScreenState extends State<ListAircraftTransit2Screen>
 
     getUserDetails();
   }
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +84,7 @@ class _ListAircraftTransit2ScreenState extends State<ListAircraftTransit2Screen>
                       prefs.setString('listtransit2name', _searchResult[i].name);
                       prefs.setString('listtransit2code', _searchResult[i].code);
                       prefs.setString('listtransit2location', _searchResult[i].location);
-                      Bantek.goToFormBantekPOP(context);
+                      Bantek.goToFormBantekFromTo(context);
                     },                
                   ),
                   margin: const EdgeInsets.all(0.0),
@@ -100,7 +104,7 @@ class _ListAircraftTransit2ScreenState extends State<ListAircraftTransit2Screen>
                       prefs.setString('listtransit2name', _userDetails[index].name);
                       prefs.setString('listtransit2code', _userDetails[index].code);
                       prefs.setString('listtransit2location', _userDetails[index].location);
-                      Bantek.goToFormBantekPOP(context);
+                      Bantek.goToFormBantekFromTo(context);
                     },
                   ),
                   margin: const EdgeInsets.all(0.0),

@@ -8,7 +8,8 @@ import 'package:bantek/pages/login_screen.dart';
 import 'package:bantek/pages/splash_screen.dart';
 import 'package:flutter/material.dart' as prefix0;
 class Bantek {
-  static const String server_ip='192.168.137.1';
+  // static const String server_ip='192.168.137.1';
+  static const String server_ip='172.16.137.91';
   static const String server_url='http://'+server_ip;
   static const String name = "BANTEK APP";
   static const String store = "Bantek Online Mobile Apps";
@@ -40,15 +41,43 @@ class Bantek {
     //Navigator.pushNamed(context, "/formupload");
 	Navigator.push(context,MaterialPageRoute(builder: (context) => FormUpload(),),);
   }
-  static void goToFormBantekPOP(BuildContext context) {
-    // Navigator.of(context).pushNamedAndRemoveUntil('/formbantek', (Route<dynamic> route) => false);
-    Navigator.popAndPushNamed(context, "/formbantek");
+  static void goToFormBantekFromFrom(BuildContext context) {
+    Navigator.of(context).pushNamedAndRemoveUntil('/formbantek', (Route<dynamic> route) => false);
+    // Navigator.popAndPushNamed(context, "/formbantek");
   }
-  static void goToFormUploadPOP(BuildContext context) {
+  static void goToFormBantekFromTo(BuildContext context) {
+    Navigator.of(context).pushNamedAndRemoveUntil('/formbantek', (Route<dynamic> route) => false);
+    // Navigator.popAndPushNamed(context, "/formbantek");
+  }
+  static void goToFormBantekFromTransit1(BuildContext context) {
+    Navigator.of(context).pushNamedAndRemoveUntil('/formbantek', (Route<dynamic> route) => false);
+    // Navigator.popAndPushNamed(context, "/formbantek");
+  }
+  static void goToFormBantekFromTransit2(BuildContext context) {
+    Navigator.of(context).pushNamedAndRemoveUntil('/formbantek', (Route<dynamic> route) => false);
+    // Navigator.popAndPushNamed(context, "/formbantek");
+  }
+  static void goToFormBantekFromTransit3(BuildContext context) {
+    Navigator.of(context).pushNamedAndRemoveUntil('/formbantek', (Route<dynamic> route) => false);
+    // Navigator.popAndPushNamed(context, "/formbantek");
+  }
+  static void goToFormBantekFromTransit4(BuildContext context) {
+    Navigator.of(context).pushNamedAndRemoveUntil('/formbantek', (Route<dynamic> route) => false);
+    // Navigator.popAndPushNamed(context, "/formbantek");
+  }
+  static void goToFormUploadFromSppd(BuildContext context) {
     // Navigator.pushReplacementNamed(context, "/formupload");
-    Navigator.popAndPushNamed(context, "/formupload");
-	// Navigator.popAndPushNamed(context,MaterialPageRoute(builder: (context) => FormUpload(),),);
+    // Navigator.popAndPushNamed(context, "/formupload");
+    Navigator.of(context).pushNamedAndRemoveUntil('/formupload', (Route<dynamic> route) => false);
   }
+  static void goToFormUploadFromCurrency(BuildContext context) {
+    // Navigator.pushReplacementNamed(context, "/formupload");
+    // Navigator.popAndPushNamed(context, "/formupload");
+    Navigator.of(context).pushNamedAndRemoveUntil('/formupload', (Route<dynamic> route) => false);
+  }
+  //
+  //********************** */
+  //
   static void goToLogin(BuildContext context) {
     Navigator.pushNamed(context, "/login");
   }

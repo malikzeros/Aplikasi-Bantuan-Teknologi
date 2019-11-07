@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:bantek/bantek.dart';
 import 'package:bantek/widgets/walkthrough.dart';
@@ -17,8 +19,12 @@ class FormUpload extends StatefulWidget {
 
 File file_aml, file_sppd, file_invoice, file_tiket, file_voucher;
 File _file_aml, _file_sppd, _file_invoice, _file_tiket, _file_voucher;
-String name, id,voucheramount,amountperday,sppdnumber;
-int totalvoucher;
+String name, id, voucheramount, amountperday, sppdnumber,tmpisocode;
+String isocode = "IDR";
+String value = "1";
+int currencyvalue = 1;
+int totalvoucher,bulat;
+double selectedcurrency;
 
 // String tiket_amount,invoice_amount,voucher_amount;
 TextEditingController tiket_amount = TextEditingController();
@@ -38,13 +44,27 @@ class _FormUploadState extends State<FormUpload> {
       voucheramount = prefs.getString('voucher_amount');
       amountperday = prefs.getString('amountperday');
       sppdnumber = prefs.getString('sppdnumber');
-      totalvoucher= int.parse(voucheramount)*int.parse(amountperday);
-      voucher_amount.text=totalvoucher.toString();
+      tmpisocode = prefs.getString('isocode');
+      if(tmpisocode!=null){
+        isocode = prefs.getString('isocode');
+        value = prefs.getString('value');
+      }else{
+        prefs.setString("isocode", isocode);
+      }      
+      if(invoice_amount.text!=''){
+        selectedcurrency=double.parse(value)*double.parse(invoice_amount.text.toString());
+        bulat=selectedcurrency.toInt();
+        invoice_amount.text=selectedcurrency.toString();
+      }
+      totalvoucher = int.parse(voucheramount) * int.parse(amountperday);
+      voucher_amount.text = totalvoucher.toString();
     });
   }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return WillPopScope(
+      child: Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue,
         title: Text("Form Uploads"),
@@ -56,21 +76,24 @@ class _FormUploadState extends State<FormUpload> {
           SizedBox(height: 48.0),
           Text("1 SPPD"),
           Card(
-                        color: Colors.grey[200],
-                        child: ListTile(
-                          leading: new CircleAvatar(
-                              backgroundImage: AssetImage('assets/icon.png')),
-                          title: sppdnumber == null? Text("SPPD Number",
-                            style: TextStyle(color: Colors.green),
-                          ): Text(sppdnumber,
-                            style: TextStyle(color: Colors.green),
-                          )
-                          ,
-                          onTap: () {
-                            Bantek.goToListSppd(context);
-                          },
-                        ),
-                      ),
+            color: Colors.grey[200],
+            child: ListTile(
+              leading: new CircleAvatar(
+                  backgroundImage: AssetImage('assets/icon.png')),
+              title: sppdnumber == null
+                  ? Text(
+                      "SPPD Number",
+                      style: TextStyle(color: Colors.green),
+                    )
+                  : Text(
+                      sppdnumber,
+                      style: TextStyle(color: Colors.green),
+                    ),
+              onTap: () {
+                Bantek.goToListSppd(context);
+              },
+            ),
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -126,10 +149,10 @@ class _FormUploadState extends State<FormUpload> {
               controller: tiket_amount,
               autofocus: false,
               decoration: InputDecoration(
-                hintText: 'Rp/dollar tiket amount',
+                hintText: 'tiket amount',
                 contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(32.0)),
+                // border: OutlineInputBorder(
+                //     borderRadius: BorderRadius.circular(32.0)),
               ),
             ),
           ),
@@ -176,19 +199,35 @@ class _FormUploadState extends State<FormUpload> {
             ],
           ),
           Text("3 INVOICE"),
-          SizedBox(
-            width: 190,
-            child: TextField(
-              controller: invoice_amount,
-              autofocus: false,
-              decoration: InputDecoration(
-                hintText: 'Rp/dollar invoice amount',
-                contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(32.0)),
+          Row(
+            children: <Widget>[
+              SizedBox(
+                width: 30,
+                child: InkWell(
+                child: Text(isocode, style: TextStyle(color: Colors.green)),
+                onTap: () {
+                  Bantek.goToListCurrency(context);
+                },
               ),
-            ),
-          ),          
+              ),
+              SizedBox(
+                width: 5,
+              ),
+              SizedBox(
+                width: 275,
+                child: TextField(
+                  controller: invoice_amount,
+                  autofocus: false,
+                  decoration: InputDecoration(
+                    hintText: 'invoice amount',
+                    contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                    // border: OutlineInputBorder(
+                    //     borderRadius: BorderRadius.circular(32.0)),
+                  ),
+                ),
+              ),
+            ],
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -240,8 +279,8 @@ class _FormUploadState extends State<FormUpload> {
               decoration: InputDecoration(
                 hintText: totalvoucher.toString(),
                 contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(32.0)),
+                // border: OutlineInputBorder(
+                //     borderRadius: BorderRadius.circular(32.0)),
               ),
             ),
           ),
@@ -349,8 +388,10 @@ class _FormUploadState extends State<FormUpload> {
                       "sppd_image": base64Image,
                       "sppdnumber": sppdnumber.toString(),
                       "id": id.toString(),
-                      "id_bantek": id_bantek.toString(),                      
-                    },headers: { 'accept':'application/json' }).then((res) {
+                      "id_bantek": id_bantek.toString(),
+                    }, headers: {
+                      'accept': 'application/json'
+                    }).then((res) {
                       print(res.statusCode);
                       print(res.body);
                     }).catchError((err) {
@@ -374,7 +415,7 @@ class _FormUploadState extends State<FormUpload> {
                       print(err);
                     });
                   }
-                  if (file_invoice != null) {
+                  if (file_invoice != null) {                    
                     String base64Image =
                         base64Encode(file_invoice.readAsBytesSync());
                     // String fileName = file_aml.path.split("/").last;
@@ -382,7 +423,7 @@ class _FormUploadState extends State<FormUpload> {
                       "invoice_image": base64Image,
                       "id": id.toString(),
                       "id_bantek": id_bantek.toString(),
-                      "invoice_amount": invoice_amount.text.toString(),                      
+                      "invoice_amount": isocode+" "+invoice_amount.text.toString(),
                     }).then((res) {
                       print(res.statusCode);
                       print(res.body);
@@ -427,6 +468,9 @@ class _FormUploadState extends State<FormUpload> {
                       file_tiket != null ||
                       file_invoice != null ||
                       file_voucher != null) {
+                        prefs.remove("amountperday");
+                        prefs.remove("sppdnumber");
+                        prefs.remove("isocode");
                     return showDialog(
                       context: context,
                       builder: (context) {
@@ -443,6 +487,10 @@ class _FormUploadState extends State<FormUpload> {
           ),
         ],
       ),
+    ),
+    onWillPop: (){
+      Bantek.goToHomeUser(context);
+    },
     );
   }
 }
