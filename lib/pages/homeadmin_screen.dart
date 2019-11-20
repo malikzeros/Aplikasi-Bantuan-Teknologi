@@ -163,7 +163,8 @@ class _HomeAdminScreenState extends State<HomeAdminScreen>
     row.add("Invoice Image");
     row.add("Invoice Amount");
     row.add("Voucher Image");
-    row.add("Voucher Amount");
+    row.add("Voucher Amoun USD");
+    row.add("Voucher Amount IDR");
     row.add("Aml Image");
     row.add("Status");
     row.add("SPPD Number");
@@ -186,6 +187,7 @@ class _HomeAdminScreenState extends State<HomeAdminScreen>
       row.add(data[i]['tiket_amount']);
       row.add(data[i]['invoice_image']);
       row.add(data[i]['invoice_amount']);
+      row.add(data[i]['invoice_amount1']);
       row.add(data[i]['voucher_image']);
       row.add(data[i]['voucher_amount']);
       row.add(data[i]['aml_image']);
@@ -422,16 +424,36 @@ Widget horizontalline(){
                             style: TextStyle(
                                 fontStyle: FontStyle.italic, fontSize: 15.0),
                           ),
-                          Image.asset(
-                            'assets/iconairtport.png',
-                            width: 32.0,
-                            height: 12.0,
-                          ),
-                          Text(
-                            data[index]['arrival_code'],
-                            style: TextStyle(
-                                fontStyle: FontStyle.italic, fontSize: 15.0),
-                          ),
+                          data[index]['leg_st_1']!=''?
+                          Row(
+                            children: <Widget>[
+                              Image.asset('assets/iconairtport.png',width: 32.0,height: 12.0,),
+                          Text(data[index]['leg_st_1'],style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15.0),
+                          ),],):Container(width: 0, height: 0),  
+                          data[index]['leg_st_2']!=''?
+                          Row(
+                            children: <Widget>[
+                              Image.asset('assets/iconairtport.png',width: 32.0,height: 12.0,),
+                          Text(data[index]['leg_st_2'],style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15.0),
+                          ),],):Container(width: 0, height: 0),   
+                          data[index]['leg_st_3']!=''?
+                          Row(
+                            children: <Widget>[
+                              Image.asset('assets/iconairtport.png',width: 32.0,height: 12.0,),
+                          Text(data[index]['leg_st_3'],style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15.0),
+                          ),],):Container(width: 0, height: 0),  
+                          data[index]['leg_st_4']!=''?
+                          Row(
+                            children: <Widget>[
+                              Image.asset('assets/iconairtport.png',width: 32.0,height: 12.0,),
+                          Text(data[index]['leg_st_4'],style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15.0),
+                          ),],):Container(width: 0, height: 0),  
+                          data[index]['leg_st_5']!=''?
+                          Row(
+                            children: <Widget>[
+                              Image.asset('assets/iconairtport.png',width: 32.0,height: 12.0,),
+                          Text(data[index]['leg_st_5'],style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15.0),
+                          ),],):Container(width: 0, height: 0),  
                         ],
                       ),
                       Row(
@@ -441,16 +463,36 @@ Widget horizontalline(){
                             style: TextStyle(
                                 fontStyle: FontStyle.italic, fontSize: 15.0),
                           ),
-                          Image.asset(
-                            'assets/iconairtport.png',
-                            width: 32.0,
-                            height: 12.0,
-                          ),
-                          Text(
-                            data[index]['arrival_city'],
-                            style: TextStyle(
-                                fontStyle: FontStyle.italic, fontSize: 15.0),
-                          ),
+                          data[index]['leg_city_1']!=null?
+                          Row(
+                            children: <Widget>[
+                              Image.asset('assets/iconairtport.png',width: 32.0,height: 12.0,),
+                          Text(data[index]['leg_city_1'],style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15.0),
+                          ),],):Container(width: 0, height: 0),   
+                          data[index]['leg_city_2']!=null?
+                          Row(
+                            children: <Widget>[
+                              Image.asset('assets/iconairtport.png',width: 32.0,height: 12.0,),
+                          Text(data[index]['leg_city_2'],style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15.0),
+                          ),],):Container(width: 0, height: 0),   
+                          data[index]['leg_city_3']!=null?
+                          Row(
+                            children: <Widget>[
+                              Image.asset('assets/iconairtport.png',width: 32.0,height: 12.0,),
+                          Text(data[index]['leg_city_3'],style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15.0),
+                          ),],):Container(width: 0, height: 0),   
+                          data[index]['leg_city_4']!=null?
+                          Row(
+                            children: <Widget>[
+                              Image.asset('assets/iconairtport.png',width: 32.0,height: 12.0,),
+                          Text(data[index]['leg_city_4'],style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15.0),
+                          ),],):Container(width: 0, height: 0),   
+                          data[index]['leg_city_5']!=null?
+                          Row(
+                            children: <Widget>[
+                              Image.asset('assets/iconairtport.png',width: 32.0,height: 12.0,),
+                          Text(data[index]['leg_city_5'],style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15.0),
+                          ),],):Container(width: 0, height: 0),   
                         ],
                       ),
                       Row(

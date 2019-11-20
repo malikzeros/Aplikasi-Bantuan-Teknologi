@@ -57,6 +57,7 @@ class _ListAircraftTransit1ScreenState extends State<ListAircraftTransit1Screen>
                   leading: new Icon(Icons.search),
                   title: new TextField(
                     controller: controller,
+                    textCapitalization: TextCapitalization.characters,
                     decoration: new InputDecoration(
                         hintText: 'Search', border: InputBorder.none),
                     onChanged: onSearchTextChanged,

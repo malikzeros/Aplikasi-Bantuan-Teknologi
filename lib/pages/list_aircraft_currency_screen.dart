@@ -60,6 +60,7 @@ class _ListAircraftCurrencyScreenState extends State<ListAircraftCurrencyScreen>
                   leading: new Icon(Icons.search),
                   title: new TextField(
                     controller: controller,
+                    textCapitalization: TextCapitalization.characters,
                     decoration: new InputDecoration(
                         hintText: 'Search', border: InputBorder.none),
                     onChanged: onSearchTextChanged,
@@ -145,9 +146,9 @@ class UserDetails {
 
   factory UserDetails.fromJson(Map<String, dynamic> json) {
     return new UserDetails(
-      id: json['id_Currency'],
-      currency_number: json['isocode'],
-      destination_type: json['value'],
+      id: json['id'],
+      currency_number: json['iso_code'],
+      destination_type: json['country_name'],
     );
   }
 }

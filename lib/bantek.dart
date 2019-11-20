@@ -9,7 +9,7 @@ import 'package:bantek/pages/splash_screen.dart';
 import 'package:flutter/material.dart' as prefix0;
 class Bantek {
   // static const String server_ip='192.168.137.1';
-  static const String server_ip='172.16.137.91';
+  static const String server_ip='172.16.137.85';
   static const String server_url='http://'+server_ip;
   static const String name = "BANTEK APP";
   static const String store = "Bantek Online Mobile Apps";
@@ -18,6 +18,7 @@ class Bantek {
   static const String url_list = server_url+"/bantek_api/tripList_api.php";
   static const String url_sppd = server_url+"/bantek_api/sppd_api.php";
   static const String url_Currency = server_url+"/bantek_api/currency_api.php";
+  static const String url_voucher_tiket= server_url+"/bantek_api/getVoucherAndTicket.php?travel_request_id=";
   static const String url_submit_status = server_url+"/bantek_api/submit_status.php";
   static const String url_submit_form = server_url+"/bantek_api/submit_form.php";
   static const String url_login = server_url+"/bantek_api/login.php";

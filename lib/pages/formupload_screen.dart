@@ -20,17 +20,23 @@ class FormUpload extends StatefulWidget {
 File file_aml, file_sppd, file_invoice, file_tiket, file_voucher;
 File _file_aml, _file_sppd, _file_invoice, _file_tiket, _file_voucher;
 String name, id, voucheramount, amountperday, sppdnumber,tmpisocode;
-String isocode = "IDR";
+String isocodetiket = "IDR",isocodeinvoice = "IDR",isocodevoucher = "IDR",isocodevoucher1 = "USD";
 String value = "1";
 int currencyvalue = 1;
 int totalvoucher,bulat;
 double selectedcurrency;
+String id_sppd;
 
 // String tiket_amount,invoice_amount,voucher_amount;
 TextEditingController tiket_amount = TextEditingController();
 TextEditingController invoice_amount = TextEditingController();
 TextEditingController voucher_amount = TextEditingController();
+TextEditingController voucher_amount1 = TextEditingController();
 
+String _isocodetiket;
+String _tiket_amount;
+String _voucher_amount;
+String _voucher_amount1;
 class _FormUploadState extends State<FormUpload> {
   @override
   void initState() {
@@ -40,24 +46,32 @@ class _FormUploadState extends State<FormUpload> {
 
   getData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    id_sppd = prefs.getString('id_sppd');
+    if(id_sppd!=null){
+      final response = await http.get(Bantek.url_voucher_tiket+id_sppd);
+    final responseJson = json.decode(response.body);
+    _isocodetiket=responseJson['currency_ticket'];
+    _tiket_amount=responseJson['ticket'].toString();
+    _voucher_amount=responseJson['voucher_usd'].toString();
+    _voucher_amount1=responseJson['voucher_idr'].toString();
+    }
     setState(() {
-      voucheramount = prefs.getString('voucher_amount');
-      amountperday = prefs.getString('amountperday');
       sppdnumber = prefs.getString('sppdnumber');
       tmpisocode = prefs.getString('isocode');
+      if(id_sppd!=null){
+        isocodetiket=_isocodetiket;
+        tiket_amount.text=_tiket_amount;
+        isocodevoucher="USD";
+        isocodevoucher1="IDR";
+        voucher_amount.text=_voucher_amount;
+        voucher_amount1.text=_voucher_amount1;
+      }
       if(tmpisocode!=null){
-        isocode = prefs.getString('isocode');
+        isocodeinvoice = prefs.getString('isocode');
         value = prefs.getString('value');
       }else{
-        prefs.setString("isocode", isocode);
+        prefs.setString("isocode", isocodeinvoice);
       }      
-      if(invoice_amount.text!=''){
-        selectedcurrency=double.parse(value)*double.parse(invoice_amount.text.toString());
-        bulat=selectedcurrency.toInt();
-        invoice_amount.text=selectedcurrency.toString();
-      }
-      totalvoucher = int.parse(voucheramount) * int.parse(amountperday);
-      voucher_amount.text = totalvoucher.toString();
     });
   }
 
@@ -143,8 +157,17 @@ class _FormUploadState extends State<FormUpload> {
             ],
           ),
           Text("2 TIKET"),
+          Row(
+            children: <Widget>[
+              SizedBox(
+            width: 30,
+            child: Text(isocodetiket, style: TextStyle(color: Colors.green)),
+          ),
           SizedBox(
-            width: 190,
+                width: 5,
+              ),
+          SizedBox(
+            width: 275,
             child: TextField(
               controller: tiket_amount,
               autofocus: false,
@@ -155,6 +178,8 @@ class _FormUploadState extends State<FormUpload> {
                 //     borderRadius: BorderRadius.circular(32.0)),
               ),
             ),
+          ),
+            ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -204,7 +229,7 @@ class _FormUploadState extends State<FormUpload> {
               SizedBox(
                 width: 30,
                 child: InkWell(
-                child: Text(isocode, style: TextStyle(color: Colors.green)),
+                child: Text(isocodeinvoice, style: TextStyle(color: Colors.green)),
                 onTap: () {
                   Bantek.goToListCurrency(context);
                 },
@@ -271,18 +296,53 @@ class _FormUploadState extends State<FormUpload> {
             ],
           ),
           Text("4 VOUCHER"),
+          Row(
+            children: <Widget>[
+              SizedBox(
+            width: 30,
+            child: Text(isocodevoucher, style: TextStyle(color: Colors.green)),
+          ),
           SizedBox(
-            width: 190,
+                width: 5,
+              ),
+          SizedBox(
+            width: 275,
             child: TextField(
               controller: voucher_amount,
               autofocus: false,
               decoration: InputDecoration(
-                hintText: totalvoucher.toString(),
+                hintText: 'Voucher Amount',
                 contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
                 // border: OutlineInputBorder(
                 //     borderRadius: BorderRadius.circular(32.0)),
               ),
             ),
+          ),
+            ],
+          ),
+          Row(
+            children: <Widget>[
+              SizedBox(
+            width: 30,
+            child: Text(isocodevoucher1, style: TextStyle(color: Colors.green)),
+          ),
+          SizedBox(
+                width: 5,
+              ),
+          SizedBox(
+            width: 275,
+            child: TextField(
+              controller: voucher_amount1,
+              autofocus: false,
+              decoration: InputDecoration(
+                hintText: "Voucher Amount",
+                contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                // border: OutlineInputBorder(
+                //     borderRadius: BorderRadius.circular(32.0)),
+              ),
+            ),
+          ),
+            ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -423,7 +483,7 @@ class _FormUploadState extends State<FormUpload> {
                       "invoice_image": base64Image,
                       "id": id.toString(),
                       "id_bantek": id_bantek.toString(),
-                      "invoice_amount": isocode+" "+invoice_amount.text.toString(),
+                      "invoice_amount": isocodeinvoice+" "+invoice_amount.text.toString(),
                     }).then((res) {
                       print(res.statusCode);
                       print(res.body);
@@ -440,6 +500,7 @@ class _FormUploadState extends State<FormUpload> {
                       "id": id.toString(),
                       "id_bantek": id_bantek.toString(),
                       "voucher_amount": voucher_amount.text.toString(),
+                      "voucher_amount1": voucher_amount1.text.toString(),
                     }).then((res) {
                       print(res.statusCode);
                       print(res.body);
@@ -468,7 +529,6 @@ class _FormUploadState extends State<FormUpload> {
                       file_tiket != null ||
                       file_invoice != null ||
                       file_voucher != null) {
-                        prefs.remove("amountperday");
                         prefs.remove("sppdnumber");
                         prefs.remove("isocode");
                     return showDialog(

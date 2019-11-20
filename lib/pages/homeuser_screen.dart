@@ -261,9 +261,10 @@ class _HomeUserScreenState extends State<HomeUserScreen>
               ),
               SizedBox(width: 20,),
               PopupMenuButton(
-                icon: Icon(
-                  Icons.local_bar,
+                icon: Icon(                  
+                  Icons.arrow_drop_down,
                   color: Colors.blue,
+                  size: 40,
                 ),
                 itemBuilder: (context) => [
                   PopupMenuItem(
@@ -380,16 +381,36 @@ class _HomeUserScreenState extends State<HomeUserScreen>
                             style: TextStyle(
                                 fontStyle: FontStyle.italic, fontSize: 15.0),
                           ),
-                          Image.asset(
-                            'assets/iconairtport.png',
-                            width: 32.0,
-                            height: 12.0,
-                          ),
-                          Text(
-                            data[index]['arrival_code'],
-                            style: TextStyle(
-                                fontStyle: FontStyle.italic, fontSize: 15.0),
-                          ),
+                          data[index]['leg_st_1']!=null?
+                          Row(
+                            children: <Widget>[
+                              Image.asset('assets/iconairtport.png',width: 32.0,height: 12.0,),
+                          Text(data[index]['leg_st_1'],style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15.0),
+                          ),],):Container(width: 0, height: 0),   
+                          data[index]['leg_st_2']!=null?
+                          Row(
+                            children: <Widget>[
+                              Image.asset('assets/iconairtport.png',width: 32.0,height: 12.0,),
+                          Text(data[index]['leg_st_2'],style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15.0),
+                          ),],):Container(width: 0, height: 0),  
+                          data[index]['leg_st_3']!=null?
+                          Row(
+                            children: <Widget>[
+                              Image.asset('assets/iconairtport.png',width: 32.0,height: 12.0,),
+                          Text(data[index]['leg_st_3'],style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15.0),
+                          ),],):Container(width: 0, height: 0),    
+                          data[index]['leg_st_4']!=null?
+                          Row(
+                            children: <Widget>[
+                              Image.asset('assets/iconairtport.png',width: 32.0,height: 12.0,),
+                          Text(data[index]['leg_st_4'],style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15.0),
+                          ),],):Container(width: 0, height: 0),  
+                          data[index]['leg_st_5']!=null?
+                          Row(
+                            children: <Widget>[
+                              Image.asset('assets/iconairtport.png',width: 32.0,height: 12.0,),
+                          Text(data[index]['leg_st_5'],style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15.0),
+                          ),],):Container(width: 0, height: 0),                 
                         ],
                       ),
                       Row(
@@ -399,16 +420,36 @@ class _HomeUserScreenState extends State<HomeUserScreen>
                             style: TextStyle(
                                 fontStyle: FontStyle.italic, fontSize: 15.0),
                           ),
-                          Image.asset(
-                            'assets/iconairtport.png',
-                            width: 32.0,
-                            height: 12.0,
-                          ),
-                          Text(
-                            data[index]['arrival_city'],
-                            style: TextStyle(
-                                fontStyle: FontStyle.italic, fontSize: 15.0),
-                          ),
+                          data[index]['leg_city_1']!=null?
+                          Row(
+                            children: <Widget>[
+                              Image.asset('assets/iconairtport.png',width: 32.0,height: 12.0,),
+                          Text(data[index]['leg_city_1'],style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15.0),
+                          ),],):Container(width: 0, height: 0),   
+                          data[index]['leg_city_2']!=null?
+                          Row(
+                            children: <Widget>[
+                              Image.asset('assets/iconairtport.png',width: 32.0,height: 12.0,),
+                          Text(data[index]['leg_city_2'],style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15.0),
+                          ),],):Container(width: 0, height: 0),
+                          data[index]['leg_city_3']!=null?
+                          Row(
+                            children: <Widget>[
+                              Image.asset('assets/iconairtport.png',width: 32.0,height: 12.0,),
+                          Text(data[index]['leg_city_3'],style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15.0),
+                          ),],):Container(width: 0, height: 0), 
+                          data[index]['leg_city_4']!=null?
+                          Row(
+                            children: <Widget>[
+                              Image.asset('assets/iconairtport.png',width: 32.0,height: 12.0,),
+                          Text(data[index]['leg_city_4'],style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15.0),
+                          ),],):Container(width: 0, height: 0),  
+                          data[index]['leg_city_5']!=null?
+                          Row(
+                            children: <Widget>[
+                              Image.asset('assets/iconairtport.png',width: 32.0,height: 12.0,),
+                          Text(data[index]['leg_city_5'],style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15.0),
+                          ),],):Container(width: 0, height: 0),                                
                         ],
                       ),
                       Row(
@@ -456,87 +497,62 @@ class _HomeUserScreenState extends State<HomeUserScreen>
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          Icon((data[index]['sppd_image'] != '0')
-                              ? Icons.check_box
-                              : Icons.check_box_outline_blank),
-                          Text("SPPD",
-                              style: TextStyle(
-                                  fontStyle: FontStyle.italic, fontSize: 10.0)),
-                          Icon((data[index]['tiket_image'] != '0')
-                              ? Icons.check_box
-                              : Icons.check_box_outline_blank),
                           Column(
                             children: <Widget>[
-                              Row(
-                                children: <Widget>[
-                                  Text("TICKET",
-                                      style: TextStyle(
-                                          fontStyle: FontStyle.italic,
-                                          fontSize: 10.0)),
-                                ],
-                              ),
-                              Row(
-                                children: <Widget>[
-                                  Text(data[index]['tiket_amount'].toString(),
-                                      style: TextStyle(
-                                          fontStyle: FontStyle.italic,
-                                          fontSize: 10.0)),
-                                ],
-                              )
-                            ],
-                          ),
-                          Icon((data[index]['invoice_image'] != '0')
+                              Text("SPPD",style: TextStyle(fontStyle: FontStyle.italic, fontSize: 10.0)),
+                              Icon((data[index]['sppd_image'] != '0')
                               ? Icons.check_box
                               : Icons.check_box_outline_blank),
+                            ],
+                          ),
+                          SizedBox(width: 10),
+                          Column(children: <Widget>[
+                            Text("TICKET",textAlign:TextAlign.left , style: TextStyle(fontStyle: FontStyle.italic,fontSize: 10.0)),
+                            Row(
+                              children: <Widget>[
+                                Icon((data[index]['tiket_image'] != '0')
+                              ? Icons.check_box
+                              : Icons.check_box_outline_blank),
+                              Text(data[index]['tiket_amount'].toString(),style: TextStyle(fontStyle: FontStyle.italic,
+                                          fontSize: 10.0)),
+                              ],
+                            )
+                          ],),
+                          SizedBox(width: 10),
+                          Column(children: <Widget>[
+                            Text("INVOICE",style: TextStyle(fontStyle: FontStyle.italic,fontSize: 10.0)),
+                            Row(children: <Widget>[
+                              Icon((data[index]['invoice_image'] != '0')
+                              ? Icons.check_box
+                              : Icons.check_box_outline_blank),
+                              Text(data[index]['invoice_amount'].toString(),
+                                      style: TextStyle(
+                                          fontStyle: FontStyle.italic,
+                                          fontSize: 10.0)),
+                            ],)
+                          ],),
+                          SizedBox(width: 10),
+                          Column(children: <Widget>[
+                            Text("VOUCHER",style: TextStyle(fontStyle: FontStyle.italic,fontSize: 10.0)),
+                            Row(children: <Widget>[
+                              Icon((data[index]['voucher_image'] != '0')
+                              ? Icons.check_box
+                              : Icons.check_box_outline_blank),
+                              Text(data[index]['voucher_amount'].toString(),
+                                      style: TextStyle(
+                                          fontStyle: FontStyle.italic,
+                                          fontSize: 10.0)),
+                            ],)
+                          ],),
+                          SizedBox(width: 10),
                           Column(
                             children: <Widget>[
-                              Row(
-                                children: <Widget>[
-                                  Text("INVOICE",
-                                      style: TextStyle(
-                                          fontStyle: FontStyle.italic,
-                                          fontSize: 10.0)),
-                                ],
-                              ),
-                              Row(
-                                children: <Widget>[
-                                  Text(data[index]['invoice_amount'].toString(),
-                                      style: TextStyle(
-                                          fontStyle: FontStyle.italic,
-                                          fontSize: 10.0)),
-                                ],
-                              )
-                            ],
-                          ),
-                          Icon((data[index]['voucher_image'] != '0')
+                              Text("AML",style: TextStyle(fontStyle: FontStyle.italic, fontSize: 10.0)),
+                              Icon((data[index]['aml_image'] != '0')
                               ? Icons.check_box
                               : Icons.check_box_outline_blank),
-                          Column(
-                            children: <Widget>[
-                              Row(
-                                children: <Widget>[
-                                  Text("VOUCHER",
-                                      style: TextStyle(
-                                          fontStyle: FontStyle.italic,
-                                          fontSize: 10.0)),
-                                ],
-                              ),
-                              Row(
-                                children: <Widget>[
-                                  Text(data[index]['voucher_amount'].toString(),
-                                      style: TextStyle(
-                                          fontStyle: FontStyle.italic,
-                                          fontSize: 10.0)),
-                                ],
-                              )
                             ],
                           ),
-                          Icon((data[index]['aml_image'] != '0')
-                              ? Icons.check_box
-                              : Icons.check_box_outline_blank),
-                          Text("AML",
-                              style: TextStyle(
-                                  fontStyle: FontStyle.italic, fontSize: 10.0)),
                         ],
                       ),
                       Row(

@@ -57,6 +57,7 @@ class _ListAircraftSPPDScreenState extends State<ListAircraftSPPDScreen> {
                   leading: new Icon(Icons.search),
                   title: new TextField(
                     controller: controller,
+                    textCapitalization: TextCapitalization.characters,
                     decoration: new InputDecoration(
                         hintText: 'Search', border: InputBorder.none),
                     onChanged: onSearchTextChanged,
@@ -81,6 +82,7 @@ class _ListAircraftSPPDScreenState extends State<ListAircraftSPPDScreen> {
                     subtitle: new Text(_searchResult[i].destination_type),  
                     onTap: () async {
                       SharedPreferences prefs = await SharedPreferences.getInstance();
+                      prefs.setString('id_sppd', _searchResult[i].id_sppd);
                       prefs.setString('sppdnumber', _searchResult[i].sppd_number);
                       Bantek.goToFormUploadFromSppd(context);
                     },                
@@ -99,6 +101,7 @@ class _ListAircraftSPPDScreenState extends State<ListAircraftSPPDScreen> {
                     subtitle: new Text(_userDetails[index].destination_type),
                     onTap: () async {
                       SharedPreferences prefs = await SharedPreferences.getInstance();
+                      prefs.setString('id_sppd', _userDetails[index].id_sppd);
                       prefs.setString('sppdnumber', _userDetails[index].sppd_number);
                       Bantek.goToFormUploadFromSppd(context);
                     },
@@ -134,13 +137,14 @@ List<UserDetails> _searchResult = [];
 List<UserDetails> _userDetails = [];
 class UserDetails {
   final int id;
-  final String sppd_number, destination_type, profileUrl;
+  final String sppd_number, destination_type,id_sppd, profileUrl;
 
-  UserDetails({this.id, this.sppd_number, this.destination_type, this.profileUrl = Bantek.url_sppd});
+  UserDetails({this.id, this.sppd_number, this.destination_type,this.id_sppd, this.profileUrl = Bantek.url_sppd});
 
   factory UserDetails.fromJson(Map<String, dynamic> json) {
     return new UserDetails(
       id: json['id_sppd'],
+      id_sppd: json['id'],
       sppd_number: json['sppd_number'],
       destination_type: json['destination_type'],
     );
