@@ -633,42 +633,25 @@ class _FormBantekState extends State<FormBantek> {
                       String name = prefs.getString('nama');
                       String id = prefs.getString('nopeg');
                       String division = prefs.getString('unit');
-                      String airportname, airportcode, airportlocation;
-                      airportname = listfromname;
-                      airportcode = listfromcode;
-                      airportlocation = listfromlocation;
-                      if (listtransit1name != null) {
-                        airportname += "->" + listtransit1name;
-                        airportcode += "->" + listtransit1code;
-                        airportlocation += "->" + listtransit1location;
-                      }
-                      if (listtransit2name != null) {
-                        airportname += "->" + listtransit2name;
-                        airportcode += "->" + listtransit2code;
-                        airportlocation += "->" + listtransit2location;
-                      }
-                      if (listtransit3name != null) {
-                        airportname += "->" + listtransit3name;
-                        airportcode += "->" + listtransit3code;
-                        airportlocation += "->" + listtransit3location;
-                      }
-                      if (listtransit4name != null) {
-                        airportname += "->" + listtransit4name;
-                        airportcode += "->" + listtransit4code;
-                        airportlocation += "->" + listtransit4location;
-                      }
                       http.post(Bantek.url_submit_form, body: {
                         'id': id.toString(),
                         'name': name.toString(),
                         'division': division.toString(),
                         'departure_date': departure_date.text.toString(),
                         'return_date': return_date.text.toString(),
-                        'airportnamefrom': airportname.toString(),
-                        'airportcodefrom': airportcode.toString(),
-                        'airportlocationfrom': airportlocation.toString(),
-                        'airportnameto': listtoname.toString(),
-                        'airportcodeto': listtocode.toString(),
-                        'airportlocationto': listtolocation.toString(),
+                        'departure_station': listfromcode.toString(),
+                        'departure_city': listfromcode.toString(),
+                        'leg_st_1': listtocode.toString(),
+                        'leg_city_1': listtolocation.toString(),
+                        'leg_st_2': listtransit1code.toString(),
+                        'leg_city_2': listtransit1location.toString(),
+                        'leg_st_3': listtransit2code.toString(),
+                        'leg_city_3': listtransit2location.toString(),
+                        'leg_st_4': listtransit3code.toString(),
+                        'leg_city_4': listtransit3location.toString(),
+                        'leg_st_5': listtransit4code.toString(),
+                        'leg_city_5': listtransit4location.toString(),
+                        
                         'type_of_bantek': type_of_bantek.toString(),
                       }).then((res) {
                         print(res.statusCode);

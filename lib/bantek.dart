@@ -8,8 +8,8 @@ import 'package:bantek/pages/login_screen.dart';
 import 'package:bantek/pages/splash_screen.dart';
 import 'package:flutter/material.dart' as prefix0;
 class Bantek {
-  // static const String server_ip='192.168.137.1';
-  static const String server_ip='172.16.137.85';
+  //   static const String server_ip='192.168.137.1';
+static const String server_ip='172.16.137.63';
   static const String server_url='http://'+server_ip;
   static const String name = "BANTEK APP";
   static const String store = "Bantek Online Mobile Apps";

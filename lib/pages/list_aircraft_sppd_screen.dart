@@ -92,7 +92,7 @@ class _ListAircraftSPPDScreenState extends State<ListAircraftSPPDScreen> {
               },
             )
                 : new ListView.builder(
-              itemCount: _userDetails.length,
+              itemCount: 0,
               itemBuilder: (context, index) {
                 return new Card(
                   child: new ListTile(

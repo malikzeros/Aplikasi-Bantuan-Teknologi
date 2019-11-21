@@ -81,6 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
           prefs.setString('nopeg', content['nopeg']);
           prefs.setString('unit', content['unit']);
           prefs.setString('email', content['email']);
+          prefs.setString('token', content['token']);
           
           if(content['role']=='user')
           Bantek.goToHomeUser(context);

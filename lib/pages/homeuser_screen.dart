@@ -33,9 +33,9 @@ class _HomeUserScreenState extends State<HomeUserScreen>
       nopeg = prefs.getString('nopeg');
       unit = prefs.getString('unit');
       email = prefs.getString('email');
-      voucher_amount = prefs.getString('voucher_amount');
       var res = await http.post(Uri.encodeFull(Bantek.url_list),
           body: {'nopeg': nopeg}, headers: {'accept': 'application/json'});
+		  print(res.body);
       setState(() {
         var content = json.decode(res.body);
         data = content['hasil'];
@@ -377,35 +377,35 @@ class _HomeUserScreenState extends State<HomeUserScreen>
                       Row(
                         children: <Widget>[
                           Text(
-                            data[index]['departure_code'],
+                            data[index]['departure_station'],
                             style: TextStyle(
                                 fontStyle: FontStyle.italic, fontSize: 15.0),
                           ),
-                          data[index]['leg_st_1']!=null?
+                          data[index]['leg_st_1']!='null'?
                           Row(
                             children: <Widget>[
                               Image.asset('assets/iconairtport.png',width: 32.0,height: 12.0,),
                           Text(data[index]['leg_st_1'],style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15.0),
                           ),],):Container(width: 0, height: 0),   
-                          data[index]['leg_st_2']!=null?
+                          data[index]['leg_st_2']!='null'?
                           Row(
                             children: <Widget>[
                               Image.asset('assets/iconairtport.png',width: 32.0,height: 12.0,),
                           Text(data[index]['leg_st_2'],style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15.0),
                           ),],):Container(width: 0, height: 0),  
-                          data[index]['leg_st_3']!=null?
+                          data[index]['leg_st_3']!='null'?
                           Row(
                             children: <Widget>[
                               Image.asset('assets/iconairtport.png',width: 32.0,height: 12.0,),
                           Text(data[index]['leg_st_3'],style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15.0),
                           ),],):Container(width: 0, height: 0),    
-                          data[index]['leg_st_4']!=null?
+                          data[index]['leg_st_4']!='null'?
                           Row(
                             children: <Widget>[
                               Image.asset('assets/iconairtport.png',width: 32.0,height: 12.0,),
                           Text(data[index]['leg_st_4'],style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15.0),
                           ),],):Container(width: 0, height: 0),  
-                          data[index]['leg_st_5']!=null?
+                          data[index]['leg_st_5']!='null'?
                           Row(
                             children: <Widget>[
                               Image.asset('assets/iconairtport.png',width: 32.0,height: 12.0,),
@@ -420,31 +420,31 @@ class _HomeUserScreenState extends State<HomeUserScreen>
                             style: TextStyle(
                                 fontStyle: FontStyle.italic, fontSize: 15.0),
                           ),
-                          data[index]['leg_city_1']!=null?
+                          data[index]['leg_city_1']!='null'?
                           Row(
                             children: <Widget>[
                               Image.asset('assets/iconairtport.png',width: 32.0,height: 12.0,),
                           Text(data[index]['leg_city_1'],style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15.0),
                           ),],):Container(width: 0, height: 0),   
-                          data[index]['leg_city_2']!=null?
+                          data[index]['leg_city_2']!='null'?
                           Row(
                             children: <Widget>[
                               Image.asset('assets/iconairtport.png',width: 32.0,height: 12.0,),
                           Text(data[index]['leg_city_2'],style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15.0),
                           ),],):Container(width: 0, height: 0),
-                          data[index]['leg_city_3']!=null?
+                          data[index]['leg_city_3']!='null'?
                           Row(
                             children: <Widget>[
                               Image.asset('assets/iconairtport.png',width: 32.0,height: 12.0,),
                           Text(data[index]['leg_city_3'],style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15.0),
                           ),],):Container(width: 0, height: 0), 
-                          data[index]['leg_city_4']!=null?
+                          data[index]['leg_city_4']!='null'?
                           Row(
                             children: <Widget>[
                               Image.asset('assets/iconairtport.png',width: 32.0,height: 12.0,),
                           Text(data[index]['leg_city_4'],style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15.0),
                           ),],):Container(width: 0, height: 0),  
-                          data[index]['leg_city_5']!=null?
+                          data[index]['leg_city_5']!='null'?
                           Row(
                             children: <Widget>[
                               Image.asset('assets/iconairtport.png',width: 32.0,height: 12.0,),
@@ -476,7 +476,7 @@ class _HomeUserScreenState extends State<HomeUserScreen>
                           Text(
                             data[index]['departure_date'],
                             style: TextStyle(
-                                color: Colors.green,
+                                // color: Colors.green,
                                 fontStyle: FontStyle.italic,
                                 fontSize: 15.0),
                           ),
@@ -488,7 +488,7 @@ class _HomeUserScreenState extends State<HomeUserScreen>
                           Text(
                             data[index]['return_date'],
                             style: TextStyle(
-                                color: Colors.green,
+                                // color: Colors.green,
                                 fontStyle: FontStyle.italic,
                                 fontSize: 15.0),
                           ),
@@ -538,10 +538,18 @@ class _HomeUserScreenState extends State<HomeUserScreen>
                               Icon((data[index]['voucher_image'] != '0')
                               ? Icons.check_box
                               : Icons.check_box_outline_blank),
-                              Text(data[index]['voucher_amount'].toString(),
+                              Column(
+                                children: <Widget>[
+                                  Text(data[index]['voucher_amount'].toString(),
                                       style: TextStyle(
                                           fontStyle: FontStyle.italic,
                                           fontSize: 10.0)),
+                                          Text(data[index]['voucher_amount1'].toString(),
+                                      style: TextStyle(
+                                          fontStyle: FontStyle.italic,
+                                          fontSize: 10.0)),
+                                ],
+                              )
                             ],)
                           ],),
                           SizedBox(width: 10),
