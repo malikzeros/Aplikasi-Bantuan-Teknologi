@@ -40,7 +40,8 @@ class _ListAircraftToScreenState extends State<ListAircraftToScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
+    return WillPopScope(
+      child: Scaffold(
       appBar: new AppBar(
         backgroundColor: Colors.blue,
         title: new Text('Airport List'),
@@ -78,13 +79,15 @@ class _ListAircraftToScreenState extends State<ListAircraftToScreen> {
                 return new Card(
                   child: new ListTile(
                     leading: new CircleAvatar(backgroundImage: new NetworkImage(_searchResult[i].profileUrl,),),
-                    title: new Text(_searchResult[i].name + ' ' + _searchResult[i].code),  
+                    title: new Text(_searchResult[i].name),  
                     subtitle: new Text(_searchResult[i].location),  
                     onTap: () async {
                       SharedPreferences prefs = await SharedPreferences.getInstance();
                       prefs.setString('listtoname', _searchResult[i].name);
                       prefs.setString('listtocode', _searchResult[i].code);
                       prefs.setString('listtolocation', _searchResult[i].location);
+                      _userDetails.clear();
+                      _searchResult.clear();
                       Bantek.goToFormBantekFromTo(context);
                     },                
                   ),
@@ -98,13 +101,15 @@ class _ListAircraftToScreenState extends State<ListAircraftToScreen> {
                 return new Card(
                   child: new ListTile(
                     leading: new CircleAvatar(backgroundImage: new NetworkImage(_userDetails[index].profileUrl,),),
-                    title: new Text(_userDetails[index].name + ' ' + _userDetails[index].code),
+                    title: new Text(_userDetails[index].name),
                     subtitle: new Text(_userDetails[index].location),
                     onTap: () async {
                       SharedPreferences prefs = await SharedPreferences.getInstance();
                       prefs.setString('listtoname', _userDetails[index].name);
                       prefs.setString('listtocode', _userDetails[index].code);
                       prefs.setString('listtolocation', _userDetails[index].location);
+                      _userDetails.clear();
+                      _searchResult.clear();
                       Bantek.goToFormBantekFromTo(context);
                     },
                   ),
@@ -115,6 +120,11 @@ class _ListAircraftToScreenState extends State<ListAircraftToScreen> {
           ),
         ],
       ),
+    ), onWillPop: () {
+      _userDetails.clear();
+      _searchResult.clear();
+      Bantek.goToFormBantek(context);
+    },
     );
   }
 

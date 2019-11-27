@@ -18,7 +18,7 @@ class FormUpload extends StatefulWidget {
 }
 
 File file_aml, file_sppd, file_invoice, file_tiket, file_voucher;
-File _file_aml, _file_sppd, _file_invoice, _file_tiket, _file_voucher;
+File _file_aml, _file_sppd, _file_invoice, _file_tiket, _file_voucher,tmpfile;
 String name, id, voucheramount, amountperday, sppdnumber,tmpisocode;
 String isocodetiket = "IDR",isocodeinvoice = "IDR",isocodevoucher = "IDR",isocodevoucher1 = "USD";
 String value = "1";
@@ -138,6 +138,16 @@ class _FormUploadState extends State<FormUpload> {
                 },
                 child: Text('GALLERY'),
               ),
+              SizedBox(width: 10.0),
+              RaisedButton(
+                onPressed: () async {
+                  setState(() {
+                    _file_sppd = tmpfile;
+                    file_sppd = null;
+                  });
+                },
+                child: Text('REMOVE'),
+              ),
             ],
           ),
           Row(
@@ -204,6 +214,16 @@ class _FormUploadState extends State<FormUpload> {
                   });
                 },
                 child: Text('GALLERY'),
+              ),
+              SizedBox(width: 10.0),
+              RaisedButton(
+                onPressed: () async {
+                  setState(() {
+                    _file_tiket = tmpfile;
+                    file_tiket = null;
+                  });
+                },
+                child: Text('REMOVE'),
               ),
             ],
           ),
@@ -276,6 +296,16 @@ class _FormUploadState extends State<FormUpload> {
                   });
                 },
                 child: Text('GALLERY'),
+              ),
+              SizedBox(width: 10.0),
+              RaisedButton(
+                onPressed: () async {
+                  setState(() {
+                    _file_invoice = tmpfile;
+                    file_invoice = null;
+                  });
+                },
+                child: Text('REMOVE'),
               ),
             ],
           ),
@@ -368,6 +398,16 @@ class _FormUploadState extends State<FormUpload> {
                 },
                 child: Text('GALLERY'),
               ),
+              SizedBox(width: 10.0),
+              RaisedButton(
+                onPressed: () async {
+                  setState(() {
+                    _file_voucher = tmpfile;
+                    file_voucher = null;
+                  });
+                },
+                child: Text('REMOVE'),
+              ),
             ],
           ),
           Row(
@@ -411,6 +451,16 @@ class _FormUploadState extends State<FormUpload> {
                 },
                 child: Text('GALLERY'),
               ),
+              SizedBox(width: 10.0),
+              RaisedButton(
+                onPressed: () async {
+                  setState(() {
+                    _file_aml = tmpfile;
+                    file_aml = null;
+                  });
+                },
+                child: Text('REMOVE'),
+              ),
             ],
           ),
           Row(
@@ -435,6 +485,7 @@ class _FormUploadState extends State<FormUpload> {
             children: <Widget>[
               RaisedButton(
                 onPressed: () async {
+                  
                   SharedPreferences prefs =
                       await SharedPreferences.getInstance();
                   String id_bantek = prefs.getString('id_bantek');
@@ -529,8 +580,15 @@ class _FormUploadState extends State<FormUpload> {
                       file_tiket != null ||
                       file_invoice != null ||
                       file_voucher != null) {
-                        prefs.remove("sppdnumber");
-                        prefs.remove("isocode");
+                        setState(() {
+                          prefs.remove("sppdnumber");
+                          prefs.remove("isocode");
+                          file_aml=null;
+                          file_sppd=null;
+                          file_tiket=null;
+                          file_invoice=null;
+                          file_voucher=null;
+                        });
                     return showDialog(
                       context: context,
                       builder: (context) {
@@ -539,6 +597,7 @@ class _FormUploadState extends State<FormUpload> {
                         );
                       },
                     );
+                    // Bantek.goToHomeUser(context);
                   }
                 },
                 child: Text('UPLOAD FILE'),

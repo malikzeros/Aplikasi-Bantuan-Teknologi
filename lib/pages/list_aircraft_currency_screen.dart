@@ -43,7 +43,8 @@ class _ListAircraftCurrencyScreenState extends State<ListAircraftCurrencyScreen>
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
+    return WillPopScope(
+      child: Scaffold(
       appBar: new AppBar(
         backgroundColor: Colors.blue,
         title: new Text('Currency Number List'),
@@ -87,6 +88,8 @@ class _ListAircraftCurrencyScreenState extends State<ListAircraftCurrencyScreen>
                       SharedPreferences prefs = await SharedPreferences.getInstance();                      
                       prefs.setString('isocode', _searchResult[i].currency_number);
                       prefs.setString('value', _searchResult[i].destination_type);
+                      _userDetails.clear();
+                      _searchResult.clear();
                       Bantek.goToFormUploadFromCurrency(context);
                     },                
                   ),
@@ -106,6 +109,8 @@ class _ListAircraftCurrencyScreenState extends State<ListAircraftCurrencyScreen>
                       SharedPreferences prefs = await SharedPreferences.getInstance();
                       prefs.setString('isocode', _userDetails[index].currency_number);
                       prefs.setString('value', _userDetails[index].destination_type);
+                      _userDetails.clear();
+                      _searchResult.clear();
                       Bantek.goToFormUploadFromCurrency(context);
                     },
                   ),
@@ -116,6 +121,11 @@ class _ListAircraftCurrencyScreenState extends State<ListAircraftCurrencyScreen>
           ),
         ],
       ),
+    ), onWillPop: () {
+      _userDetails.clear();
+      _searchResult.clear();
+      Bantek.goToFormUpload(context);
+    },
     );
   }
 

@@ -10,13 +10,15 @@ class ListAircraftSPPDScreen extends StatefulWidget {
   @override
   _ListAircraftSPPDScreenState createState() => new _ListAircraftSPPDScreenState();
 }
-
+String nopeg;
 class _ListAircraftSPPDScreenState extends State<ListAircraftSPPDScreen> {
   TextEditingController controller = new TextEditingController();
 
   // Get json result and convert it to model. Then add
   Future<Null> getUserDetails() async {
-    final response = await http.get(Bantek.url_sppd);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    nopeg = prefs.getString('nopeg');
+    final response = await http.get(Bantek.url_sppd+nopeg);
     final responseJson = json.decode(response.body);
     print(responseJson);
 
@@ -40,7 +42,8 @@ class _ListAircraftSPPDScreenState extends State<ListAircraftSPPDScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
+    return WillPopScope(
+      child: Scaffold(
       appBar: new AppBar(
         backgroundColor: Colors.blue,
         title: new Text('SPPD Number List'),
@@ -84,6 +87,8 @@ class _ListAircraftSPPDScreenState extends State<ListAircraftSPPDScreen> {
                       SharedPreferences prefs = await SharedPreferences.getInstance();
                       prefs.setString('id_sppd', _searchResult[i].id_sppd);
                       prefs.setString('sppdnumber', _searchResult[i].sppd_number);
+                      _userDetails.clear();
+                      _searchResult.clear();
                       Bantek.goToFormUploadFromSppd(context);
                     },                
                   ),
@@ -100,9 +105,12 @@ class _ListAircraftSPPDScreenState extends State<ListAircraftSPPDScreen> {
                     title: new Text(_userDetails[index].sppd_number),
                     subtitle: new Text(_userDetails[index].destination_type),
                     onTap: () async {
+                      
                       SharedPreferences prefs = await SharedPreferences.getInstance();
                       prefs.setString('id_sppd', _userDetails[index].id_sppd);
                       prefs.setString('sppdnumber', _userDetails[index].sppd_number);
+                      _userDetails.clear();
+                      _searchResult.clear();
                       Bantek.goToFormUploadFromSppd(context);
                     },
                   ),
@@ -113,7 +121,14 @@ class _ListAircraftSPPDScreenState extends State<ListAircraftSPPDScreen> {
           ),
         ],
       ),
+    ), onWillPop: () {
+      _userDetails.clear();
+      _searchResult.clear();
+      Bantek.goToFormUpload(context);
+    } ,
+
     );
+
   }
 
   onSearchTextChanged(String text) async {

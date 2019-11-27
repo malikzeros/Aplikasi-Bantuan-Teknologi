@@ -23,10 +23,10 @@ class _HomeAdminScreenState extends State<HomeAdminScreen>
   List data = [];
   var remarks;
   int radiovalue;
-  String nama = 'Full Name';
-  String nopeg = '582813';
-  String unit = 'JTKTOB-3';
-  String email = 'email@gmf-aeroasia.co.id';
+  String nama = ' ';
+  String nopeg = ' ';
+  String unit = ' ';
+  String email = ' ';
   /////////////////////////////////////////////////////////////////////////////////////////////////
   ///Controller
   /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -138,9 +138,33 @@ class _HomeAdminScreenState extends State<HomeAdminScreen>
   }
 
   Future banteklogout() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.clear();
-    Bantek.goToLogin(context);
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Logout User"),
+          content: new Text("Apa kamu yakin mau logout?"),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Tidak"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            new FlatButton(
+              child: new Text("Yes"),
+              onPressed: () async {
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+               prefs.clear();
+                Bantek.goToLogout(context);
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   Future bantekreport() async {
@@ -176,6 +200,7 @@ class _HomeAdminScreenState extends State<HomeAdminScreen>
     row.add("Aml Image");
     row.add("Status");
     row.add("SPPD Number");
+	row.add("Created Date");
     rows.add(row);
     for (int i = 0; i <= data.length - 1; i++) {
       List<dynamic> row = List();
@@ -209,6 +234,7 @@ class _HomeAdminScreenState extends State<HomeAdminScreen>
       row.add(data[i]['aml_image']);
       row.add(data[i]['status']);
       row.add(data[i]['sppdnumber']);
+	  row.add(data[i]['created_date']);
       rows.add(row);
     }
     Directory appDocDir = await getExternalStorageDirectory();
@@ -239,10 +265,38 @@ class _HomeAdminScreenState extends State<HomeAdminScreen>
   /////////////////////////////////////////////////////////////////////////////////////////////////
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return WillPopScope(
+      child: Scaffold(
         body: Column(
       children: <Widget>[profiling(),horizontalline(), buttongroup(), listbantek()],
-    ));
+    )), onWillPop: () {
+     showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Logout User"),
+          content: new Text("Apa kamu yakin mau logout?"),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Tidak"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            new FlatButton(
+              child: new Text("Yes"),
+              onPressed: () {
+                Bantek.goToLogout(context);
+              },
+            ),
+          ],
+        );
+      },
+    );
+    },
+    );
   }
 
   Widget profiling() {
@@ -433,7 +487,9 @@ Widget horizontalline(){
 
                   subtitle: Column(
                     children: <Widget>[
-                      Row(
+                      SizedBox(
+                        width: 350,
+                        child: Wrap(
                         children: <Widget>[
                           Text(
                             data[index]['departure_station'],
@@ -441,38 +497,42 @@ Widget horizontalline(){
                                 fontStyle: FontStyle.italic, fontSize: 15.0),
                           ),
                           data[index]['leg_st_1']!='null'?
-                          Row(
+                          Wrap(
                             children: <Widget>[
                               Image.asset('assets/iconairtport.png',width: 32.0,height: 12.0,),
                           Text(data[index]['leg_st_1'],style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15.0),
                           ),],):Container(width: 0, height: 0),  
                           data[index]['leg_st_2']!='null'?
-                          Row(
+                          Wrap(
                             children: <Widget>[
                               Image.asset('assets/iconairtport.png',width: 32.0,height: 12.0,),
                           Text(data[index]['leg_st_2'],style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15.0),
                           ),],):Container(width: 0, height: 0),   
                           data[index]['leg_st_3']!='null'?
-                          Row(
+                          Wrap(
                             children: <Widget>[
                               Image.asset('assets/iconairtport.png',width: 32.0,height: 12.0,),
                           Text(data[index]['leg_st_3'],style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15.0),
                           ),],):Container(width: 0, height: 0),  
                           data[index]['leg_st_4']!='null'?
-                          Row(
+                          Wrap(
                             children: <Widget>[
                               Image.asset('assets/iconairtport.png',width: 32.0,height: 12.0,),
                           Text(data[index]['leg_st_4'],style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15.0),
                           ),],):Container(width: 0, height: 0),  
                           data[index]['leg_st_5']!='null'?
-                          Row(
+                          Wrap(
                             children: <Widget>[
                               Image.asset('assets/iconairtport.png',width: 32.0,height: 12.0,),
                           Text(data[index]['leg_st_5'],style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15.0),
                           ),],):Container(width: 0, height: 0),  
                         ],
                       ),
-                      Row(
+                      ),
+                      SizedBox(height: 10,),
+                      SizedBox(
+                        width: 350,
+                        child: Wrap(
                         children: <Widget>[
                           Text(
                             data[index]['departure_city'],
@@ -480,36 +540,37 @@ Widget horizontalline(){
                                 fontStyle: FontStyle.italic, fontSize: 15.0),
                           ),
                           data[index]['leg_city_1']!='null'?
-                          Row(
+                          Wrap(
                             children: <Widget>[
                               Image.asset('assets/iconairtport.png',width: 32.0,height: 12.0,),
                           Text(data[index]['leg_city_1'],style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15.0),
                           ),],):Container(width: 0, height: 0),   
                           data[index]['leg_city_2']!='null'?
-                          Row(
+                          Wrap(
                             children: <Widget>[
                               Image.asset('assets/iconairtport.png',width: 32.0,height: 12.0,),
                           Text(data[index]['leg_city_2'],style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15.0),
                           ),],):Container(width: 0, height: 0),   
                           data[index]['leg_city_3']!='null'?
-                          Row(
+                          Wrap(
                             children: <Widget>[
                               Image.asset('assets/iconairtport.png',width: 32.0,height: 12.0,),
                           Text(data[index]['leg_city_3'],style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15.0),
                           ),],):Container(width: 0, height: 0),   
                           data[index]['leg_city_4']!='null'?
-                          Row(
+                          Wrap(
                             children: <Widget>[
                               Image.asset('assets/iconairtport.png',width: 32.0,height: 12.0,),
                           Text(data[index]['leg_city_4'],style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15.0),
                           ),],):Container(width: 0, height: 0),   
                           data[index]['leg_city_5']!='null'?
-                          Row(
+                          Wrap(
                             children: <Widget>[
                               Image.asset('assets/iconairtport.png',width: 32.0,height: 12.0,),
                           Text(data[index]['leg_city_5'],style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15.0),
                           ),],):Container(width: 0, height: 0),   
                         ],
+                      ),
                       ),
                       Row(
                         children: <Widget>[
@@ -648,14 +709,14 @@ Widget horizontalline(){
 
   Color colorstatus(sppd, ticket, invoice, voucher, aml, status) {
     if (status != 'Y') {
-      return Colors.red;
+      return Colors.red[200];
     } else {
       if (sppd != '0' &&
           ticket != '0' &&
           invoice != '0' &&
           voucher != '0' &&
           aml != '0') {
-        return Colors.green;
+        return Colors.green[200];
       } else {
         return Colors.yellow;
       }
@@ -710,6 +771,11 @@ Widget horizontalline(){
           FlatButton(
             child: const Text('APPROVE', style: TextStyle(color: Colors.blue)),
             onPressed: () async {
+              if(remarks==null){
+                return showDialog(context: context,builder: (context) {return AlertDialog(content: Text("Mohon Pilih PBTH atau TMB"),);
+            },
+          );
+              }else{
               await http.post(Bantek.url_submit_status, body: {
                 'remarks': remarks.toString(),
                 'id_bantek': id_bantek.toString(),
@@ -724,6 +790,7 @@ Widget horizontalline(){
                 data = content['hasil'];
               });
               return 'success!';
+            }
             },
           ),
         ],

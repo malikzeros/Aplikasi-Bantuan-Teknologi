@@ -41,7 +41,8 @@ class _ListAircraftTransit4ScreenState extends State<ListAircraftTransit4Screen>
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
+    return WillPopScope(
+      child: Scaffold(
       appBar: new AppBar(
         backgroundColor: Colors.blue,
         title: new Text('Airport List'),
@@ -79,13 +80,15 @@ class _ListAircraftTransit4ScreenState extends State<ListAircraftTransit4Screen>
                 return new Card(
                   child: new ListTile(
                     leading: new CircleAvatar(backgroundImage: new NetworkImage(_searchResult[i].profileUrl,),),
-                    title: new Text(_searchResult[i].name + ' ' + _searchResult[i].code),  
+                    title: new Text(_searchResult[i].name),  
                     subtitle: new Text(_searchResult[i].location),  
                     onTap: () async {
                       SharedPreferences prefs = await SharedPreferences.getInstance();
                       prefs.setString('listtransit4name', _searchResult[i].name);
                       prefs.setString('listtransit4code', _searchResult[i].code);
                       prefs.setString('listtransit4location', _searchResult[i].location);
+                      _userDetails.clear();
+                      _searchResult.clear();
                       Bantek.goToFormBantekFromTransit4(context);
                     },                
                   ),
@@ -99,13 +102,15 @@ class _ListAircraftTransit4ScreenState extends State<ListAircraftTransit4Screen>
                 return new Card(
                   child: new ListTile(
                     leading: new CircleAvatar(backgroundImage: new NetworkImage(_userDetails[index].profileUrl,),),
-                    title: new Text(_userDetails[index].name + ' ' + _userDetails[index].code),
+                    title: new Text(_userDetails[index].name),
                     subtitle: new Text(_userDetails[index].location),
                     onTap: () async {
                       SharedPreferences prefs = await SharedPreferences.getInstance();
                       prefs.setString('listtransit4name', _userDetails[index].name);
                       prefs.setString('listtransit4code', _userDetails[index].code);
                       prefs.setString('listtransit4location', _userDetails[index].location);
+                      _userDetails.clear();
+                      _searchResult.clear();
                       Bantek.goToFormBantekFromTransit4(context);
                     },
                   ),
@@ -116,7 +121,12 @@ class _ListAircraftTransit4ScreenState extends State<ListAircraftTransit4Screen>
           ),
         ],
       ),
-    );
+    ), 
+    onWillPop: () {
+      _userDetails.clear();
+      _searchResult.clear();
+      Bantek.goToFormBantek(context);
+    },);
   }
 
   onSearchTextChanged(String text) async {

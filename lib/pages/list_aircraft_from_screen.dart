@@ -13,7 +13,6 @@ class ListAircraftFromScreen extends StatefulWidget {
 
 class _ListAircraftFromScreenState extends State<ListAircraftFromScreen> {
   TextEditingController controller = new TextEditingController();
-
   // Get json result and convert it to model. Then add
   Future<Null> getUserDetails() async {
     final response = await http.get(Bantek.url_airport);
@@ -40,7 +39,8 @@ class _ListAircraftFromScreenState extends State<ListAircraftFromScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
+    return WillPopScope(
+      child: Scaffold(
       appBar: new AppBar(
         backgroundColor: Colors.blue,
         title: new Text('Airport List'),
@@ -78,13 +78,15 @@ class _ListAircraftFromScreenState extends State<ListAircraftFromScreen> {
                 return new Card(
                   child: new ListTile(
                     leading: new CircleAvatar(backgroundImage: new NetworkImage(_searchResult[i].profileUrl,),),
-                    title: new Text(_searchResult[i].name + ' ' + _searchResult[i].code),  
+                    title: new Text(_searchResult[i].name),  
                     subtitle: new Text(_searchResult[i].location),  
                     onTap: () async {
                       SharedPreferences prefs = await SharedPreferences.getInstance();
                       prefs.setString('listfromname', _searchResult[i].name);
                       prefs.setString('listfromcode', _searchResult[i].code);
                       prefs.setString('listfromlocation', _searchResult[i].location);
+                      _userDetails.clear();
+                      _searchResult.clear();
                       Bantek.goToFormBantekFromFrom(context);
                     },                
                   ),
@@ -98,13 +100,15 @@ class _ListAircraftFromScreenState extends State<ListAircraftFromScreen> {
                 return new Card(
                   child: new ListTile(
                     leading: new CircleAvatar(backgroundImage: new NetworkImage(_userDetails[index].profileUrl,),),
-                    title: new Text(_userDetails[index].name + ' ' + _userDetails[index].code),
+                    title: new Text(_userDetails[index].name),
                     subtitle: new Text(_userDetails[index].location),
                     onTap: () async {
                       SharedPreferences prefs = await SharedPreferences.getInstance();
                       prefs.setString('listfromname', _userDetails[index].name);
                       prefs.setString('listfromcode', _userDetails[index].code);
                       prefs.setString('listfromlocation', _userDetails[index].location);
+                      _userDetails.clear();
+                      _searchResult.clear();
                       Bantek.goToFormBantekFromFrom(context);
                     },
                   ),
@@ -115,6 +119,11 @@ class _ListAircraftFromScreenState extends State<ListAircraftFromScreen> {
           ),
         ],
       ),
+    ), onWillPop: () {
+      _userDetails.clear();
+      _searchResult.clear();
+      Bantek.goToFormBantek(context);
+    },
     );
   }
 

@@ -97,7 +97,8 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Text('Log In', style: TextStyle(color: Colors.white)),
       ),
     );
-    return Scaffold(
+    return WillPopScope(
+      child: Scaffold(
       backgroundColor: Colors.white,
       body: Center(
         child: Form(
@@ -127,6 +128,33 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
         ),
       ),
+    ), onWillPop: () {
+      showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Keluar Aplikasi"),
+          content: new Text("Apa kamu yakin mau keluar aplikasi?"),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Tidak"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            new FlatButton(
+              child: new Text("Yes"),
+              onPressed: () {
+                exit(0);
+              },
+            ),
+          ],
+        );
+      },
+    );
+    },
     );
   }
 }
