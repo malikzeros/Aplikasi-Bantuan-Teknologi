@@ -16,6 +16,8 @@ class LoginScreen extends StatefulWidget {
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 class _LoginScreenState extends State<LoginScreen> {
+  bool isdisable;
+
  Future checklogin() async {
       try {
   final result = await InternetAddress.lookup(Bantek.server_ip);
@@ -30,8 +32,40 @@ class _LoginScreenState extends State<LoginScreen> {
  }
  @override
  void initState() {
+   isdisable=false;
    this.checklogin();
     super.initState();
+  }
+  Future loginaction() async {
+    setState(() {
+      isdisable=true;
+    });
+    var response = await http.post(Bantek.url_login, body: {'id': usernameController.text, 'password': passwordController.text},headers: { 'accept':'application/json' });
+          var content = json.decode(response.body); 
+		  print(content);
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          prefs.setString('nama', content['nama']);
+          prefs.setString('nopeg', content['nopeg']);
+          prefs.setString('unit', content['unit']);
+          prefs.setString('email', content['email']);
+          prefs.setString('token', content['token']);
+          
+          if(content['role']=='user'){
+            Bantek.goToHomeUser(context);
+          }
+          
+          else if(content['role']=='admin'){
+            Bantek.goToHomeAdmin(context);
+          }          
+          else{
+            setState(() {
+              isdisable=false;
+            });
+            return showDialog(context: context,builder: (context) {return AlertDialog(content: Text("Nopeg and Password Incorrect"),);
+            },
+          );
+          }
+            
   }
   @override
   Widget build(BuildContext context) {
@@ -72,29 +106,10 @@ class _LoginScreenState extends State<LoginScreen> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(24),
         ),
-        onPressed: () async {
-          var response = await http.post(Bantek.url_login, body: {'id': usernameController.text, 'password': passwordController.text},headers: { 'accept':'application/json' });
-          var content = json.decode(response.body); 
-		  print(content);
-          SharedPreferences prefs = await SharedPreferences.getInstance();
-          prefs.setString('nama', content['nama']);
-          prefs.setString('nopeg', content['nopeg']);
-          prefs.setString('unit', content['unit']);
-          prefs.setString('email', content['email']);
-          prefs.setString('token', content['token']);
-          
-          if(content['role']=='user')
-          Bantek.goToHomeUser(context);
-          else if(content['role']=='admin')
-          Bantek.goToHomeAdmin(context);
-          else
-            return showDialog(context: context,builder: (context) {return AlertDialog(content: Text("Nopeg and Password Incorrect"),);
-            },
-          );
-        },
+        onPressed: isdisable?null: loginaction,
         padding: EdgeInsets.all(12),
         color: Colors.blue,
-        child: Text('Log In', style: TextStyle(color: Colors.white)),
+        child: isdisable?Text('Processing', style: TextStyle(color: Colors.white)):Text('Log In', style: TextStyle(color: Colors.white)),
       ),
     );
     return WillPopScope(

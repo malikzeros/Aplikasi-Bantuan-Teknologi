@@ -45,6 +45,7 @@ class _FormBantekState extends State<FormBantek> {
       isbuttonvisibletrip3 = false,
       isbuttonvisibletrip4 = false,
       isbuttonvisibletrip5 = false;
+  bool disablebutton;
   var content;
   String dropdownValue;
   final format = DateFormat("yyyy-MM-dd");
@@ -104,9 +105,95 @@ class _FormBantekState extends State<FormBantek> {
   @override
   void initState() {
     super.initState();
+    disablebutton=false;
     this.getdata();
   }
-
+  Future formaction() async {
+    setState(() {
+      disablebutton=true;
+    });
+                      if (departure_date == null ||
+                          return_date == null ||
+                          listfromcode == null ||
+                          listtocode == null ||
+                          type_of_bantek == null) {
+                        return showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              content: Text(
+                                  "Mohon untuk melengkapi data Leg 1 | tanggal keberangkatan | tanggal kepulangan | type bantek"),
+                            );
+                          },
+                        );
+                      } else {
+                        SharedPreferences prefs =
+                            await SharedPreferences.getInstance();
+                        String name = prefs.getString('nama');
+                        String id = prefs.getString('nopeg');
+                        String division = prefs.getString('unit');
+                        http.post(Bantek.url_submit_form, body: {
+                          'id': id.toString(),
+                          'name': name.toString(),
+                          'division': division.toString(),
+                          'departure_date': departure_date.text.toString(),
+                          'return_date': return_date.text.toString(),
+                          'departure_station': listfromcode.toString(),
+                          'departure_city': listfromlocation.toString(),
+                          'leg_st_1': listtocode.toString(),
+                          'leg_city_1': listtolocation.toString(),
+                          'leg_st_2': listtransit1code.toString(),
+                          'leg_city_2': listtransit1location.toString(),
+                          'leg_st_3': listtransit2code.toString(),
+                          'leg_city_3': listtransit2location.toString(),
+                          'leg_st_4': listtransit3code.toString(),
+                          'leg_city_4': listtransit3location.toString(),
+                          'leg_st_5': listtransit4code.toString(),
+                          'leg_city_5': listtransit4location.toString(),
+                          'type_of_bantek': type_of_bantek.toString(),
+                        }).then((res) {
+                          print(res.statusCode);
+                          print(res.body);
+                          setState(() {
+                            prefs.remove("listfromname");
+                            prefs.remove("listfromcode");
+                            prefs.remove("listfromlocation");
+                            prefs.remove("listtoname");
+                            prefs.remove("listtocode");
+                            prefs.remove("listtolocation");
+                            prefs.remove("listtransit1name");
+                            prefs.remove("listtransit1code");
+                            prefs.remove("listtransit1location");
+                            prefs.remove("listtransit2name");
+                            prefs.remove("listtransit2code");
+                            prefs.remove("listtransit2location");
+                            prefs.remove("listtransit3name");
+                            prefs.remove("listtransit3code");
+                            prefs.remove("listtransit3location");
+                            prefs.remove("listtransit4name");
+                            prefs.remove("listtransit4code");
+                            prefs.remove("listtransit4location");
+                            departure_date.text="";
+                            return_date.text="";
+                            type_of_bantek=null;
+                          });
+                          
+                          return showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                content: Text("Input Success"),
+                              );
+                            },
+                          );
+                          setState(() {
+      disablebutton=false;
+    });
+                        }).catchError((err) {
+                          print(err);
+                        });
+                      }
+  }
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -628,87 +715,8 @@ class _FormBantekState extends State<FormBantek> {
                   ),
                   SizedBox(height: 48.0),
                   RaisedButton(
-                    onPressed: () async {
-                      if (departure_date == null ||
-                          return_date == null ||
-                          listfromcode == null ||
-                          listtocode == null ||
-                          type_of_bantek == null) {
-                        return showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              content: Text(
-                                  "Mohon untuk melengkapi data Leg 1 | tanggal keberangkatan | tanggal kepulangan | type bantek"),
-                            );
-                          },
-                        );
-                      } else {
-                        SharedPreferences prefs =
-                            await SharedPreferences.getInstance();
-                        String name = prefs.getString('nama');
-                        String id = prefs.getString('nopeg');
-                        String division = prefs.getString('unit');
-                        http.post(Bantek.url_submit_form, body: {
-                          'id': id.toString(),
-                          'name': name.toString(),
-                          'division': division.toString(),
-                          'departure_date': departure_date.text.toString(),
-                          'return_date': return_date.text.toString(),
-                          'departure_station': listfromcode.toString(),
-                          'departure_city': listfromlocation.toString(),
-                          'leg_st_1': listtocode.toString(),
-                          'leg_city_1': listtolocation.toString(),
-                          'leg_st_2': listtransit1code.toString(),
-                          'leg_city_2': listtransit1location.toString(),
-                          'leg_st_3': listtransit2code.toString(),
-                          'leg_city_3': listtransit2location.toString(),
-                          'leg_st_4': listtransit3code.toString(),
-                          'leg_city_4': listtransit3location.toString(),
-                          'leg_st_5': listtransit4code.toString(),
-                          'leg_city_5': listtransit4location.toString(),
-                          'type_of_bantek': type_of_bantek.toString(),
-                        }).then((res) {
-                          print(res.statusCode);
-                          print(res.body);
-                          setState(() {
-                            prefs.remove("listfromname");
-                            prefs.remove("listfromcode");
-                            prefs.remove("listfromlocation");
-                            prefs.remove("listtoname");
-                            prefs.remove("listtocode");
-                            prefs.remove("listtolocation");
-                            prefs.remove("listtransit1name");
-                            prefs.remove("listtransit1code");
-                            prefs.remove("listtransit1location");
-                            prefs.remove("listtransit2name");
-                            prefs.remove("listtransit2code");
-                            prefs.remove("listtransit2location");
-                            prefs.remove("listtransit3name");
-                            prefs.remove("listtransit3code");
-                            prefs.remove("listtransit3location");
-                            prefs.remove("listtransit4name");
-                            prefs.remove("listtransit4code");
-                            prefs.remove("listtransit4location");
-                            departure_date.text="";
-                            return_date.text="";
-                            type_of_bantek=null;
-                          });
-                          return showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog(
-                                content: Text("Input Success"),
-                              );
-                            },
-                          );
-                          // Bantek.goToHomeUser(context);
-                        }).catchError((err) {
-                          print(err);
-                        });
-                      }
-                    },
-                    child: Text('SUBMIT DATA'),
+                    onPressed: disablebutton?null : formaction,
+                    child: disablebutton?Text('PROSESSING'):Text('SUBMIT DATA'),
                   )
                 ],
               ),

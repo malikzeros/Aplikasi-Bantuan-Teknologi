@@ -9,7 +9,8 @@ import 'package:http/http.dart' as http;
 import 'package:csv/csv.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:esys_flutter_share/esys_flutter_share.dart';
-
+import 'package:bantek/widgets/datetime_picker_formfield.dart';
+import 'package:intl/intl.dart';
 class HomeAdminScreen extends StatefulWidget {
   @override
   _HomeAdminScreenState createState() => new _HomeAdminScreenState();
@@ -20,7 +21,12 @@ class _HomeAdminScreenState extends State<HomeAdminScreen>
   /////////////////////////////////////////////////////////////////////////////////////////////////
   ///Variable
   /////////////////////////////////////////////////////////////////////////////////////////////////
+  TextEditingController datefrom = TextEditingController();
+  TextEditingController dateto = TextEditingController();
+  final now=DateTime.now();
+  final format = DateFormat("yyyy-MM-dd");
   List data = [];
+  List datareport = [];
   var remarks;
   int radiovalue;
   String nama = ' ';
@@ -168,6 +174,12 @@ class _HomeAdminScreenState extends State<HomeAdminScreen>
   }
 
   Future bantekreport() async {
+    var res = await http.post(Uri.encodeFull(Bantek.url_report),
+    body: {'datefrom': datefrom.text , 'dateto': dateto.text},
+    headers: {'accept': 'application/json'});
+    var content = json.decode(res.body);
+    datareport = content['hasil'];
+    print(content);
     List<List<dynamic>> rows = List<List<dynamic>>();
     List<dynamic> row = List();
     row.add("ID");
@@ -202,38 +214,38 @@ class _HomeAdminScreenState extends State<HomeAdminScreen>
     row.add("SPPD Number");
 	row.add("Created Date");
     rows.add(row);
-    for (int i = 0; i <= data.length - 1; i++) {
+    for (int i = 0; i <= datareport.length - 1; i++) {
       List<dynamic> row = List();
-      row.add(data[i]['id']);
-      row.add(data[i]['name']);
-      row.add(data[i]['division']);
-      row.add(data[i]['departure_station']);
-      row.add(data[i]['leg_st_1']);
-      row.add(data[i]['leg_st_2']);
-      row.add(data[i]['leg_st_3']);
-      row.add(data[i]['leg_st_4']);
-      row.add(data[i]['leg_st_5']);
-      row.add(data[i]['departure_city']);
-      row.add(data[i]['leg_city_1']);
-      row.add(data[i]['leg_city_2']);
-      row.add(data[i]['leg_city_3']);
-      row.add(data[i]['leg_city_4']);
-      row.add(data[i]['leg_city_5']);
-      row.add(data[i]['departure_date']);
-      row.add(data[i]['return_date']);
-      row.add(data[i]['type_bantek']);
-      row.add(data[i]['remaks']);
-      row.add(data[i]['sppd_image']);
-      row.add(data[i]['tiket_image']);
-      row.add(data[i]['tiket_amount']);
-      row.add(data[i]['invoice_image']);
-      row.add(data[i]['invoice_amount']);
-      row.add(data[i]['voucher_image']);
-      row.add(data[i]['voucher_amount']);
-      row.add(data[i]['voucher_amount1']);
-      row.add(data[i]['aml_image']);
-      row.add(data[i]['status']);
-      row.add(data[i]['sppdnumber']);
+      row.add(datareport[i]['id']);
+      row.add(datareport[i]['name']);
+      row.add(datareport[i]['division']);
+      row.add(datareport[i]['departure_station']);
+      row.add(datareport[i]['leg_st_1']);
+      row.add(datareport[i]['leg_st_2']);
+      row.add(datareport[i]['leg_st_3']);
+      row.add(datareport[i]['leg_st_4']);
+      row.add(datareport[i]['leg_st_5']);
+      row.add(datareport[i]['departure_city']);
+      row.add(datareport[i]['leg_city_1']);
+      row.add(datareport[i]['leg_city_2']);
+      row.add(datareport[i]['leg_city_3']);
+      row.add(datareport[i]['leg_city_4']);
+      row.add(datareport[i]['leg_city_5']);
+      row.add(datareport[i]['departure_date']);
+      row.add(datareport[i]['return_date']);
+      row.add(datareport[i]['type_bantek']);
+      row.add(datareport[i]['remaks']);
+      row.add(datareport[i]['sppd_image']);
+      row.add(datareport[i]['tiket_image']);
+      row.add(datareport[i]['tiket_amount']);
+      row.add(datareport[i]['invoice_image']);
+      row.add(datareport[i]['invoice_amount']);
+      row.add(datareport[i]['voucher_image']);
+      row.add(datareport[i]['voucher_amount']);
+      row.add(datareport[i]['voucher_amount1']);
+      row.add(datareport[i]['aml_image']);
+      row.add(datareport[i]['status']);
+      row.add(datareport[i]['sppdnumber']);
 	  row.add(data[i]['created_date']);
       rows.add(row);
     }
@@ -372,11 +384,96 @@ Widget horizontalline(){
                   color: Colors.blue,
                 ),
                 label: Text("Report", style: TextStyle(color: Colors.blue)),
-                onPressed: bantekreport,
+                onPressed: (){
+                  showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Report"),
+          content: Container(
+            height: 100.0,
+            child: Column(
+            children: <Widget>[
+              Row(
+                children: <Widget>[
+                  Text("From"),
+                  SizedBox(width: 5,),
+              SizedBox(
+                width: 175,
+                child: DateTimeField(
+                    controller: datefrom,
+                    decoration: InputDecoration(
+                      hintText: now.toString(),
+                      contentPadding:
+                          EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                      // border: OutlineInputBorder(
+                      //     borderRadius: BorderRadius.circular(32.0)),
+                    ),
+                    format: format,
+                    onShowPicker: (context, currentValue) {
+                      return showDatePicker(
+                          context: context,
+                          firstDate: DateTime(1900),
+                          initialDate: currentValue ?? DateTime.now(),
+                          lastDate: DateTime(2100));
+                    },
+                  ),
+              )
+                ],
+              ),              
+              Row(
+                children: <Widget>[
+                  Text("Until"),
+                  SizedBox(width: 10,),
+              SizedBox(
+                width: 175,
+                child: DateTimeField(
+                    controller: dateto,
+                    decoration: InputDecoration(
+                      hintText: now.toString(),
+                      contentPadding:
+                          EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                      // border: OutlineInputBorder(
+                      //     borderRadius: BorderRadius.circular(32.0)),
+                    ),
+                    format: format,
+                    onShowPicker: (context, currentValue) {
+                      return showDatePicker(
+                          context: context,
+                          firstDate: DateTime(1900),
+                          initialDate: currentValue ?? DateTime.now(),
+                          lastDate: DateTime(2100));
+                    },
+                  ),
+              )
+                ],
+              )
+            ],
+          ),
+          ),
+          actions: <Widget>[
+            new FlatButton(
+              child: new Text("Cancel"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            new FlatButton(
+              child: new Text("Generate Report"),
+              onPressed: () {
+                bantekreport();
+              },
+            ),
+          ],
+        );
+      },
+    );
+                },
               ),
               PopupMenuButton(
                 icon: Icon(
-                  Icons.local_bar,
+                  Icons.arrow_drop_down,
                   color: Colors.blue,
                 ),
                 itemBuilder: (context) => [

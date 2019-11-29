@@ -29,6 +29,17 @@
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+			<intent-filter>
+
+			<action android:name="android.intent.action.VIEW" />
+			<category android:name="android.intent.category.DEFAULT" />
+			<category android:name="android.intent.category.BROWSABLE" />
+			<data android:scheme="http"
+              android:host="172.16.137.93"
+              android:pathPrefix="/launch" />
+			  <data android:scheme="app" android:host="com.example.bantek" />
+
+			</intent-filter>
         </activity>
     </application>
 		<uses-permission android:name="android.permission.INTERNET" />
